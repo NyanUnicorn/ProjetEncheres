@@ -47,10 +47,15 @@ public class ArticleVendu {
 		this.getCategorie().setNoCategorie(noCategorie);
 	}
 
+	public ArticleVendu(int noArticle) {
+		super();
+		this.noArticle = noArticle;
+	}
+
 	public ArticleVendu() {
 		super();
 	}
-
+	
 	public int getNoArticle() {
 		return noArticle;
 	}

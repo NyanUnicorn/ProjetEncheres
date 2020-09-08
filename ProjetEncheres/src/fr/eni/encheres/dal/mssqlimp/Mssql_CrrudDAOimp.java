@@ -25,7 +25,7 @@ public abstract class Mssql_CrrudDAOimp<T> extends Mssql_DAOimp<T> implements Cr
 
 	protected abstract int getUpdateIdIndex();
 	
-	protected abstract int getItemId(T _item);
+	protected abstract int getItemId(T _item) throws DalException;
 	
 	
 	@Override

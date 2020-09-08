@@ -49,6 +49,11 @@ public class Utilisateur {
 		this.credit = credit;
 	}
 
+	public Utilisateur(int noUtilisateur) {
+		super();
+		this.noUtilisateur = noUtilisateur;
+	}
+	
 	public Utilisateur() {
 		super();
 	}

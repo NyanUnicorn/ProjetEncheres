@@ -4,6 +4,9 @@ public class DalException extends Exception {
 
 	public static final String DAL_CANNOT_OPEN_CONECTION = "Ne  peut pas ouvrir connexion";
 	public static final String DAL_NAMING_EXCEPTION = "Erreur de nommage";
+	public static final String DAL_NO_IMPLEMENTATION = "Methode non implementé ou non implementable";
+	public static final String DAL_ERROR_READING_DATA = "Methode non implementé ou non implementable";
+	public static final String DAL_ERROR_WRITING_DATA = "Methode non implementé ou non implementable";
 	
 	
 	

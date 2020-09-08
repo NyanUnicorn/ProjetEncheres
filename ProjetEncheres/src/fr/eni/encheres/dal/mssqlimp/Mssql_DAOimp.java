@@ -18,6 +18,8 @@ public abstract class Mssql_DAOimp<T> {
 	protected abstract T FromDbMapper(ResultSet _res) throws DalException ;
 	protected abstract void ToDBMapper(PreparedStatement _stm, T _item) throws DalException ;
 	protected abstract void ToDBIdMapper(PreparedStatement _stm, int _id,int index) throws DalException ;
+	protected abstract void ToDBIdMapper(PreparedStatement _stm, T _item) throws DalException ;
+	protected abstract void ToDBIdMapper(PreparedStatement _stm, T _item, int start_index) throws DalException ;
 	
 	protected static Connection getConnection() throws DalException {
 		Connection cnx = null;

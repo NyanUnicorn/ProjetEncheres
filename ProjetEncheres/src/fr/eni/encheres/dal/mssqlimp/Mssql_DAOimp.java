@@ -27,10 +27,10 @@ public abstract class Mssql_DAOimp<T> {
 			cnx = dataSource.getConnection();
 		}catch(SQLException e){
 			e.printStackTrace();
-			throw new DalException(/*DALExceptionCode.DAL_CANNOT_OPEN_CONECTION*/);
+			throw new DalException(DalException.DAL_CANNOT_OPEN_CONECTION);
 		} catch (NamingException e) {
 			e.printStackTrace();
-			throw new DalException(/*DALExceptionCode.DAL_NAMING_EXCEPTION*/);
+			throw new DalException(DalException.DAL_NAMING_EXCEPTION);
 		}
 		return cnx;
 	}

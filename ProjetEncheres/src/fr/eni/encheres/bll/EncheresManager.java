@@ -45,12 +45,13 @@ public class EncheresManager {
 		return lst;
 	}
 	
-	public Enchere Get(Enchere _ench) throws BllException {
+	public Enchere Get(int _id0, int _id1) throws BllException {
+		Enchere ench = null;
 		try {
-			getAdapter().Insert(_ench);
+			ench = getAdapter().SelectByIdPair(_id0, _id1);
 		}catch (DalException dale) {
 			throw new BllException(dale.getMessage());
 		}
-		return _ench;
+		return ench;
 	}
 }

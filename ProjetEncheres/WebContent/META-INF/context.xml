@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-	<Ressource
+	<Resource
 		name="jdbc/pool_cnx"
 		driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
 		type="javax.sql.DataSource"
 		
-		url="jdbc:sqlserver://localhost;databasename=ENCHERES"
+		url="jdbc:sqlserver://localhost;databasename=ENCHERE"
 		username="encheres_user"
 		password="Pa$$w0rd"
 		

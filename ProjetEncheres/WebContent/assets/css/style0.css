@@ -50,10 +50,10 @@ nav a h3{
 Contenue
 */
 
-
 main{
 
 }
+
 div.container{
     width: 1300px;
     margin: 0 auto;
@@ -81,6 +81,7 @@ form .txtinput{
     border-radius: 12px;
     display: grid;
     grid-template-columns: auto 1fr;
+    margin: 4px 0;
 }
 form .txtinput label{
     width: auto;
@@ -99,6 +100,8 @@ form .txtinput input{
     cursor: pointer;
 }
 .enchere-filtre input.button{
+    display: block;
+    width: calc(100% - 0px);
     border: var(--foreground) 1px solid;
     margin-top: 15px;
     padding: 10px 20px;

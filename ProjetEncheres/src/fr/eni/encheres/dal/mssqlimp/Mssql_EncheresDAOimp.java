@@ -78,6 +78,37 @@ public class Mssql_EncheresDAOimp extends Mssql_CrrudDAOimp<Enchere> implements 
 			"FROM [dbo].[ARTICLES_VENDUS] a\r\n" + 
 			"WHERE e.[no_article] = ? ";
 	private static final int update_id_index = 3;
+	/*
+	private static final String select_en_cours =
+			"SELECT [no_utilisateur]\r\n" + 
+			"      ,[no_article]\r\n" + 
+			"      ,[date_enchere]\r\n" + 
+			"      ,[montant_enchere]\r\n" + 
+			"FROM [dbo].[ENCHERES]\r\n" + 
+			"WHERE [date_enchere] < GETDATE()";
+	private static final String select_en_cours_filtre =
+			"SELECT e.[no_utilisateur]\r\n" + 
+			"      ,e.[no_article]\r\n" + 
+			"      ,e.[date_enchere]\r\n" + 
+			"      ,e.[montant_enchere]\r\n" + 
+			"FROM [dbo].[ENCHERES] e\r\n" + 
+			"LEFT JOIN [dbo].[ARTICLES_VENDUS] a ON a.[no_article] = e.[no_article]\r\n" + 
+			"WHERE [date_enchere] < GETDATE()\r\n" + 
+			"    AND a.[no_categorie] = (SELECT CASE ? WHEN 0 THEN a.[no_categorie] ELSE ?)\r\n" + 
+			"    AND a.[nom_article] =  ? ";
+	/*
+	 * 
+	 * 
+SELECT e.[no_utilisateur]
+      ,e.[no_article]
+      ,e.[date_enchere]
+      ,e.[montant_enchere]
+FROM [dbo].[ENCHERES] e
+LEFT JOIN [dbo].[ARTICLES_VENDUS] a ON a.[no_article] = e.[no_article]
+WHERE [date_enchere] < GETDATE()
+    AND a.[no_categorie] = (SELECT CASE ? WHEN 0 THEN a.[no_categorie] ELSE ?)
+    AND a.[nom_article] = '%' + ? + '%'
+	 */
 	
 	
 	@Override
@@ -221,7 +252,78 @@ public class Mssql_EncheresDAOimp extends Mssql_CrrudDAOimp<Enchere> implements 
 			}
 		}
 	}
+	
+/*
+	@Override
+	public List<Enchere> selectEnchereEnCours() throws DalException {
+		List<Enchere> lst = null;
+		Connection conn = getConnection();
+		try {
+			PreparedStatement stm = conn.prepareStatement(getSelectEnCours());
+			ResultSet res = stm.executeQuery();
+			if(res.next()) {
+				lst = new ArrayList<Enchere>();
+				do {
+					lst.add(FromDbMapper(res));					
+				}while(res.next());
+			}
+		} catch (SQLException e) {
+			throw new DalException();
+		}finally {
+			if(conn != null) {
+				try {
+					if(!conn.isClosed()) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lst;
+	}
 
+
+	@Override
+	public List<Enchere> selectEnchereEnCours(int _categ, String _name_frag) throws DalException {
+		List<Enchere> lst = null;
+		Connection conn = getConnection();
+		try {
+			PreparedStatement stm = conn.prepareStatement(getSelectEnCoursFiltre());
+			stm.setInt(1, _categ);
+			stm.setInt(2, _categ);
+			stm.setString(3, "%"+_name_frag+"%");
+			ResultSet res = stm.executeQuery();
+			if(res.next()) {
+				lst = new ArrayList<Enchere>();
+				do {
+					lst.add(FromDbMapper(res));					
+				}while(res.next());
+			}
+		} catch (SQLException e) {
+			throw new DalException();
+		}finally {
+			if(conn != null) {
+				try {
+					if(!conn.isClosed()) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lst;
+	}
+
+	private String getSelectEnCours() {
+		return select_en_cours;
+	}
+	
+	private String getSelectEnCoursFiltre() {
+		return select_en_cours_filtre;
+	}
+*/
 	@Override
 	protected String getInsert() {
 		return insert;
@@ -332,5 +434,6 @@ public class Mssql_EncheresDAOimp extends Mssql_CrrudDAOimp<Enchere> implements 
 		}
 		return ench;
 	}
+
 
 }

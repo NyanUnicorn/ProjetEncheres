@@ -17,7 +17,14 @@ public abstract class Mssql_DAOimp<T> {
 	protected abstract void FromDbIdMapper(int _res,  T _item) throws DalException ;
 	protected abstract T FromDbMapper(ResultSet _res) throws DalException ;
 	protected abstract void ToDBMapper(PreparedStatement _stm, T _item) throws DalException ;
-	protected abstract void ToDBIdMapper(PreparedStatement _stm, int _id,int index) throws DalException ;
+	protected void ToDBIdMapper(PreparedStatement _stm, int _id,int index) throws DalException{
+		try {
+			_stm.setInt(index, _id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DalException(DalException.DAL_ERROR_WRITING_DATA);
+		}
+	}
 	protected abstract void ToDBIdMapper(PreparedStatement _stm, T _item) throws DalException ;
 	protected abstract void ToDBIdMapper(PreparedStatement _stm, T _item, int start_index) throws DalException ;
 

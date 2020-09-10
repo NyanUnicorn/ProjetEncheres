@@ -1,5 +1,7 @@
 package fr.eni.encheres.dal.specifique;
 
+import java.util.List;
+
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
@@ -14,5 +16,8 @@ public interface EncheresDAO extends InsertDAO<Enchere>, SelectDAO<Enchere>, Sel
 	
 	Utilisateur getUtilisateur(Enchere enchere)throws DalException;
 	ArticleVendu getArticle(Enchere enchere) throws DalException;
-
+	/*
+	List<Enchere> selectEnchereEnCours() throws DalException;
+	List<Enchere> selectEnchereEnCours(int _categ, String _name_frag) throws DalException;
+*/
 }

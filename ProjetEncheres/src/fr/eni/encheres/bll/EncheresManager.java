@@ -12,7 +12,7 @@ public class EncheresManager {
 	private EncheresDAO adapter;
 	
 	 
-	protected static EncheresManager GetInstace() {
+	public static EncheresManager GetInstace() {
 		if(instance == null)
 			new EncheresManager();
 		return instance;
@@ -54,4 +54,25 @@ public class EncheresManager {
 		}
 		return ench;
 	}
+	/*
+	public List<Enchere> GetLast() throws BllException{
+		List<Enchere> lst = null;
+		try {
+			lst = getAdapter().selectEnchereEnCours();
+		}catch (DalException dale) {
+			throw new BllException(dale.getMessage());
+		}
+		return lst;
+	}
+	
+	public List<Enchere> GetLast(int _categ, String _name_frag) throws BllException{
+		List<Enchere> lst = null;
+		try {
+			lst = getAdapter().selectEnchereEnCours(_categ, _name_frag);
+		}catch (DalException dale) {
+			throw new BllException(dale.getMessage());
+		}
+		return lst;
+	}
+	*/
 }

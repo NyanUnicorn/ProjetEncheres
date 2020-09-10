@@ -32,7 +32,7 @@ public class ArticleVendu {
 		this.etatVente = etatVente;
 		this.vendeur = vendeur;
 		this.acheteur = acheteur;
-		this.getCategorie().setNoCategorie(noCategorie);
+		this.setCategorie(new Categorie(noCategorie));
 	}
 	
 	public ArticleVendu(String nomArticle, String descritpion, Date dateDebutEncheres, Date dateFinEncheres,
@@ -44,7 +44,7 @@ public class ArticleVendu {
 		this.dateFinEncheres = dateFinEncheres;
 		this.miseAPrix = miseAPrix;
 		this.vendeur = vendeur;
-		this.getCategorie().setNoCategorie(noCategorie);
+		this.setCategorie(new Categorie(noCategorie));
 	}
 
 	public ArticleVendu(int noArticle) {

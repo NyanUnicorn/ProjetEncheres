@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BllException;
 import fr.eni.encheres.bll.CategorieManager;
 import fr.eni.encheres.bll.EncheresManager;
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 
 /**
@@ -36,12 +38,16 @@ public class ListeEncheres extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("title", "Liste des Enchères");
 		
-		EncheresManager emgr = EncheresManager.GetInstace();
+		ArticleVenduManager amgr = ArticleVenduManager.GetInstace();
 		CategorieManager cmgr = CategorieManager.GetInstace();
-		List<Enchere> encheres = null;
+		List<ArticleVendu> articleEnCours = null;
 		
 		try {
-			encheres = emgr.Get();
+			articleEnCours = amgr.GetLast();
+			for(ArticleVendu a : articleEnCours) {
+				//récupérer le vendeur
+			}
+			request.setAttribute("articles_encheres", articleEnCours);
 		} catch (BllException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

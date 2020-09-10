@@ -50,6 +50,21 @@
             <div class="spacer">
 
             </div>
+          <c:forEach items="${articles_encheres}" var="article">
+            <div class="container-item ">
+                <div class="article-list-item">
+                    <div class="img">
+
+                    </div>
+                    <div class="info">
+                        <span class="name">${article.nomArticle}</span>
+                        <span class="price">${article.miseAPrix}</span>
+                        <span class="dtend">${article.dateFinEncheres}</span>
+                        <span class="seller">${article.vendeur.pseudo}</span>
+                    </div>
+                </div>
+            </div>
+          </c:forEach>
             <div class="container-item ">
                 aa
             </div>

@@ -11,6 +11,10 @@ public class Categorie {
 		this.libelle = libelle;
 	}
 
+	public Categorie(int noCategorie) {
+		super();
+		this.noCategorie = noCategorie;
+	}
 
 	public Categorie(String libelle) {
 		super();

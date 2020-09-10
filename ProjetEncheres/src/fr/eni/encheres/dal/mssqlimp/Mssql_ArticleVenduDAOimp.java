@@ -30,11 +30,11 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			"      ,va.[date_fin_encheres]\r\n" + 
 			"      ,va.[prix_initial]\r\n" + 
 			"      ,va.[prix_vente]\r\n" + 
-			"      ,va.[vendeur]\r\n" + 
+			"      ,va.[no_vendeur]\r\n" + 
 			"      ,va.[no_categorie]\r\n" + 
 			"      ,va.[description]\r\n" + 
 			"      ,va.[etat_vente]\r\n" + 
-			"      ,va.[acheteur]\r\n" + 
+			"      ,va.[no_acheteur]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va";
 	private static final String select_by_id =
 			"SELECT va.[no_article]\r\n" + 
@@ -43,11 +43,11 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			"      ,va.[date_fin_encheres]\r\n" + 
 			"      ,va.[prix_initial]\r\n" + 
 			"      ,va.[prix_vente]\r\n" + 
-			"      ,va.[vendeur]\r\n" + 
+			"      ,va.[no_vendeur]\r\n" + 
 			"      ,va.[no_categorie]\r\n" + 
 			"      ,va.[description]\r\n" + 
 			"      ,va.[etat_vente]\r\n" + 
-			"      ,va.[acheteur]\r\n" + 
+			"      ,va.[no_acheteur]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"WHERE va.[no_article] = ?";
 	private static final String update =
@@ -76,11 +76,11 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			"    ,va.[date_fin_encheres]\r\n" + 
 			"    ,va.[prix_initial]\r\n" + 
 			"    ,va.[prix_vente]\r\n" + 
-			"    ,va.[vendeur]\r\n" + 
+			"    ,va.[no_vendeur]\r\n" + 
 			"    ,va.[no_categorie]\r\n" + 
 			"    ,va.[description]\r\n" + 
 			"    ,va.[etat_vente]\r\n" + 
-			"    ,va.[acheteur]\r\n" + 
+			"    ,va.[no_acheteur]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"WHERE va.[date_fin_encheres] > GETDATE()";
 	private static final String select_en_cours_filtre =
@@ -90,11 +90,11 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			"    ,va.[date_fin_encheres]\r\n" + 
 			"    ,va.[prix_initial]\r\n" + 
 			"    ,va.[prix_vente]\r\n" + 
-			"    ,va.[vendeur]\r\n" + 
+			"    ,va.[no_vendeur]\r\n" + 
 			"    ,va.[no_categorie]\r\n" + 
 			"    ,va.[description]\r\n" + 
 			"    ,va.[etat_vente]\r\n" + 
-			"    ,va.[acheteur]\r\n" + 
+			"    ,va.[no_acheteur]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"WHERE va.[date_fin_encheres] > GETDATE()\r\n" + 
 			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ?)\r\n" + 

@@ -112,6 +112,10 @@ form .txtinput input{
     font-family: 'Handlee', cursive;
     
 }
+form .txtinput select{
+    font-family: 'Handlee', cursive;
+    border: none;    
+}
 .button{
     font-family: 'Handlee', cursive;
     background-color: transparent;

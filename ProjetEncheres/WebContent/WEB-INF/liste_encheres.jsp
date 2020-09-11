@@ -19,7 +19,7 @@
                             <label><i class="fa fa-search" aria-hidden="true"></i></label>
                             <input type="text" name="" id="" placeholder="Le nom de l'article contient">
                         </div>
-                        <div>
+                        <div class="txtinput">
                             <label>Categorie :</label>
                             <select name="">
                             <c:forEach items="${categories}" var="categ">

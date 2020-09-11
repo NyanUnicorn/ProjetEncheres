@@ -185,15 +185,14 @@ input.button{
     text-align: center;
 }
 
-/*
-@media only screen and (max-width: 8000px) {
-    div.container{
-        width: 800px;
-    }
+.grouping{
+    border: var(--accent6) 1px solid;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 5px;
 }
-*/ 
 
-@media only screen and (max-width: 1300px) {
+@media only screen and (min-width: 800px) {
     div.container{
         width: 800px;
     }

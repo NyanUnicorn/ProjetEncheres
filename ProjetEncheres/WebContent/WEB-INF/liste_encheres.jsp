@@ -5,20 +5,7 @@
 <html>
 <jsp:include page="/WEB-INF/fragments/head.jsp"></jsp:include>
 <body>
-    <nav class="navbar">
-        <div class="nav-left">
-            <a href="">
-                <h3>
-                    ENI - Enchères
-                </h3>
-            </a>
-        </div>
-        <div class="nav-right">
-            <a href="">
-                s'inscrir - se connecter
-            </a>
-        </div>
-    </nav>
+<jsp:include page="/WEB-INF/fragments/navbar.jsp"></jsp:include>
     <main>
         <div class="container">
             <h2>
@@ -54,10 +41,10 @@
             <div class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
-
+						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
                     </div>
                     <div class="info">
-                        <span class="name">${article.nomArticle}</span>
+                        <span class="name"><u>${article.nomArticle}</u></span>
                         <span class="price">${article.miseAPrix}</span>
                         <span class="dtend">${article.dateFinEncheres}</span>
                         <span class="seller">${article.vendeur.pseudo}</span>
@@ -65,15 +52,6 @@
                 </div>
             </div>
           </c:forEach>
-            <div class="container-item ">
-                aa
-            </div>
-            <div class="container-item ">
-                aa
-            </div>
-            <div class="container-item ">
-                aa
-            </div>
 
         </div>
     </main>

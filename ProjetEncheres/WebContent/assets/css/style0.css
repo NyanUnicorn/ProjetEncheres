@@ -1,5 +1,10 @@
 :root{
     --foreground: #161616;
+    --background: #ffffff;
+    --accentf: #a5978aff;
+    --accent9: #a5978a99;
+    --accent6: #a5978a66;
+    --accent3: #a5978a33;
 }
 
 html{
@@ -18,6 +23,7 @@ nav{
     position: fixed;
     top: 0;
     display: grid;
+    background-color: var(--background);
     grid-template-columns: 1fr 1fr;
     -webkit-box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.75);
@@ -71,17 +77,30 @@ form{
     display: flex;
     align-items: flex-start;
 }
+form.fill-form{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: repeat(auto);
+}
+
 form input{
     border: 0;
 }
 form .txtinput{
-    border: var(--foreground) 1px solid;
     height: 22px;
     padding: 1px 7px;
     border-radius: 12px;
     display: grid;
     grid-template-columns: auto 1fr;
-    margin: 4px 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0px 0px 10px -5px var(--foreground);
+    -moz-box-shadow: 0px 0px 10px -5px var(--foreground);
+    box-shadow: 0px 0px 10px -5px var(--foreground);
+}
+form.fill-form .txtinput{
+    width: calc(100% - 40px);
+    margin-left: 10px;
 }
 form .txtinput label{
     width: auto;
@@ -98,13 +117,22 @@ form .txtinput input{
     background-color: transparent;
     border-radius: 2px;
     cursor: pointer;
-}
-.enchere-filtre input.button{
-    display: block;
-    width: calc(100% - 0px);
-    border: var(--foreground) 1px solid;
-    margin-top: 15px;
+    height: 24px;
+    display: inline-block;
+    margin: 15px 5px 5px;
     padding: 10px 20px;
+    -webkit-box-shadow: 0px 0px 10px -5px var(--foreground);
+    -moz-box-shadow: 0px 0px 10px -5px var(--foreground);
+    box-shadow: 0px 0px 10px -5px var(--foreground);
+}
+.button:hover{
+    transition: .1s;
+    -webkit-box-shadow: 0px 0px 6px -1px var(--foreground);
+    -moz-box-shadow: 0px 0px 6px -1px var(--foreground);
+    box-shadow: 0px 0px 6px -1px var(--foreground);
+}
+input.button{
+    height: 46px;
 }
 .spacer{
     width: 100%;
@@ -114,14 +142,27 @@ form .txtinput input{
     display: grid;
     grid-template-columns: 110px 1fr;
     height: 110px;
+    -webkit-box-shadow: 0px 0px 0px .5px var(--accent3);
+    -moz-box-shadow: 0px 0px 0px .5px var(--accent3);
+    box-shadow: 0px 0px 0px .5px var(--accent3);
+    cursor: pointer;
+}
+.article-list-item:hover{
+    -webkit-box-shadow: 0px 0px 5px 0px var(--accent6);
+    -moz-box-shadow: 0px 0px 5px 0px var(--accent6);
+    box-shadow: 0px 0px 5px 0px var(--accent6);
+    transition: .1s;
 }
 .article-list-item > .img{
     grid-column: 1;
-    background-color: tomato;
+}
+.article-list-item .img > *{
+    display: block;
+    height: 100%;
+    width: 100%;
 }
 .article-list-item > .info{
     grid-column: 2;
-    background-color: green;
     width: calc(100% - 10px);
     height: calc(100% - 2px);
     padding: 1px 5px;
@@ -132,11 +173,21 @@ form .txtinput input{
     
 }
 
+.grid-col-span-2{
+    grid-column: span 2;
+}
+.center-items{
+    align-items: center;
+    text-align: center;
+}
+
+/*
 @media only screen and (max-width: 8000px) {
     div.container{
         width: 800px;
     }
 }
+*/ 
 
 @media only screen and (max-width: 1300px) {
     div.container{
@@ -150,7 +201,7 @@ form .txtinput input{
     }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 600px) {
     div.container{
         
     }
@@ -161,5 +212,12 @@ form .txtinput input{
         width: calc(100% - 10px);
         display: inline-block;
         margin-bottom: 10px;
+    }
+    form.fill-form{
+        display: grid;
+        grid-template-columns: 100%;
+    }
+    form.fill-form .grid-col-span-2{
+        grid-column: span 1;
     }
 }

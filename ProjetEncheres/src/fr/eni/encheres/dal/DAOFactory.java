@@ -4,6 +4,7 @@ import fr.eni.encheres.dal.mssqlimp.Mssql_ArticleVenduDAOimp;
 import fr.eni.encheres.dal.mssqlimp.Mssql_CategorieDAOimp;
 import fr.eni.encheres.dal.mssqlimp.Mssql_EncheresDAOimp;
 import fr.eni.encheres.dal.mssqlimp.Mssql_RetraitDAOimp;
+import fr.eni.encheres.dal.mssqlimp.Mssql_UtilisateurDAOimp;
 import fr.eni.encheres.dal.specifique.ArticleVenduDAO;
 import fr.eni.encheres.dal.specifique.CategorieDAO;
 import fr.eni.encheres.dal.specifique.EncheresDAO;
@@ -13,7 +14,7 @@ import fr.eni.encheres.dal.specifique.UtilisateurDAO;
 public class DAOFactory {
 
 	public static UtilisateurDAO getUtilisateurDAO() {
-		return null;
+		return new Mssql_UtilisateurDAOimp();
 	}
 	public static CategorieDAO getCategorieDAO() {
 		return new Mssql_CategorieDAOimp();

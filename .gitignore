@@ -24,8 +24,8 @@
 hs_err_pid*
 
 */.settings/*
+.settings/*
 */.build/*
 *.classpath
 *.project
 /bin/
-*/.gitignore

@@ -37,21 +37,39 @@ public class ListeEncheres extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("title", "Liste des Enchères");
-		
 		ArticleVenduManager amgr = ArticleVenduManager.GetInstace();
 		CategorieManager cmgr = CategorieManager.GetInstace();
 		List<ArticleVendu> articleEnCours = null;
 		
+		
+		String fragmenNom = request.getParameter("frag_name");
+		if(fragmenNom == null) {
+			fragmenNom = "";				
+		}
+		int noCateg= 0;
+		String sNoCateg = request.getParameter("categ");
+		if(sNoCateg != null && sNoCateg != "") {
+			noCateg = Integer.parseInt(sNoCateg);
+		}
+		
+		
 		try {
-			articleEnCours = amgr.GetLast();
-			for(ArticleVendu a : articleEnCours) {
-				//récupérer le vendeur
+			articleEnCours = amgr.GetLast(noCateg, fragmenNom);
+			if(articleEnCours != null) {
+				for(ArticleVendu a : articleEnCours) {
+					//récupérer le vendeur
+				}
+			
 			}
 			request.setAttribute("articles_encheres", articleEnCours);
 		} catch (BllException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+
+		request.setAttribute("fragmenNom", fragmenNom);
+		request.setAttribute("noCateg", noCateg);
 		
 		try {
 			request.setAttribute("categories", cmgr.Get());

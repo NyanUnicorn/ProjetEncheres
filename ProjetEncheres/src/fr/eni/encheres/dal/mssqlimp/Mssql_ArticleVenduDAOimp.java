@@ -97,8 +97,8 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			"    ,va.[no_acheteur]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"WHERE va.[date_fin_encheres] > GETDATE()\r\n" + 
-			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ?)\r\n" + 
-			"AND va.[nom_article] =  ? ";
+			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ? END)\r\n" + 
+			"AND va.[nom_article] LIKE  ? ";
 	private static final int update_id_index = 9;
 	
 	

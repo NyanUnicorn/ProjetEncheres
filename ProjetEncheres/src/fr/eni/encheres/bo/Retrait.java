@@ -7,7 +7,7 @@ public class Retrait {
 	private ArticleVendu articleVendu;
 	public Retrait(int noArticle, String rue, String codePostale, String ville) {
 		super();
-		this.getArticleVendu().setNoArticle(noArticle);
+		this.setArticleVendu(new ArticleVendu(noArticle));
 		this.rue = rue;
 		this.codePostale = codePostale;
 		this.ville = ville;

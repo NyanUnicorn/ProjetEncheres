@@ -24,13 +24,13 @@
                     </div>
                     <div class="txtinput article-description">
                         <label for="descriptionArticle">Decription : </label>
-                        <textarea name="" id="" cols="30" rows="10" name="description" id="descriptionArticle"  ><c:out value="${article.description}"/></textarea>
+                        <textarea id="descriptionArticle" cols="30" rows="10" name="description" ><c:out value="${article.description}"/></textarea>
                     </div>
                     <div class="txtinput">
                         <label for="categorieArticle">Categorie : </label>
                         <select name="categorie" id="categorieArticle">
                         <c:forEach items="${categories}" var="categ">
-                            <option>${categ.libelle}</option>
+                            <option value="${categ.noCategorie}">${categ.libelle}</option>
                         </c:forEach>
                         </select>
                     </div>

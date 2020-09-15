@@ -9,37 +9,56 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BllException;
-import fr.eni.encheres.bll.CategorieManager;
+import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Enchere;
 
 /**
- * Servlet implementation class NouvelleVente
+ * Servlet implementation class Encherir
  */
-@WebServlet("/NouvelleVente")
-public class NouvelleVente extends HttpServlet {
+@WebServlet("/Encherir")
+public class Encherir extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NouvelleVente() {
+    public Encherir() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("editableArticle", true);
-		request.setAttribute("title", "Nouvelle Vente");
-		CategorieManager cmgr = CategorieManager.GetInstace();
-
-		try {
-			request.setAttribute("categories", cmgr.Get());
-		} catch (BllException e) {
-			e.printStackTrace();
+		request.setAttribute("editableArticle", false);
+		request.setAttribute("title", "Encherir");
+		ArticleVenduManager amgr = ArticleVenduManager.GetInstace();
+		
+		int noArticle = 0;
+		String sNoArticle = request.getParameter("noarticle");
+		if(sNoArticle != null && sNoArticle != "") {
+			noArticle = Integer.parseInt(sNoArticle);
 		}
+		ArticleVendu article = null;
+		Enchere meilleurOffre = null;
+		
+		if(noArticle != 0) {
+			try {
+				//article
+				article = amgr.Get(noArticle);
+				amgr.GetLieuRetrait(article);
+				amgr.GetCategorie(article);
+				//meilleur offre
+				meilleurOffre = amgr.getBestOffer(article);
+			} catch (BllException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		request.setAttribute("article", article);
+		request.setAttribute("meilleurOffre", meilleurOffre);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/article.jsp");
 		rd.forward(request, response);

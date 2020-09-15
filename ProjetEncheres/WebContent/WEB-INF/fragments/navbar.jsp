@@ -1,14 +1,40 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar">
     <div class="nav-left">
         <a href="${pageContext.request.contextPath}">
             <h3>
-                ENI - Ench�res
+                ENI - Enchères
             </h3>
         </a>
     </div>
     <div class="nav-right">
-        <a href="">
-            s'inscrir - se connecter
+<c:choose>
+<c:when test="${true}">
+		<a href="${pageContext.request.contextPath}">
+            <span>Enchères</span>
+            <i class="fa fa-list" aria-hidden="true"></i>
         </a>
+        <a href="${pageContext.request.contextPath}/NouvelleVente">
+            <span>Vendre un article</span>
+            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+        </a>
+        <a href="">
+            <span>Mon profile</span>
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </a>
+        <a href="">
+            <span>Déconexion</span>
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+        </a>
+</c:when>
+<c:otherwise>
+        <a href="">
+        	<span>s'inscrir - se connecter</span>
+          	<i class="fa fa-sign-in" aria-hidden="true"></i>
+        </a>
+</c:otherwise>  
+</c:choose>
     </div>
 </nav>

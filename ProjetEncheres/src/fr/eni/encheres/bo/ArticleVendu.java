@@ -6,7 +6,7 @@ import java.util.List;
 public class ArticleVendu {
 	private int noArticle;
 	private String nomArticle;
-	private String descritpion;
+	private String description;
 	private Date dateDebutEncheres;
 	private Date dateFinEncheres;
 	private int miseAPrix;
@@ -24,7 +24,7 @@ public class ArticleVendu {
 		super();
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
-		this.descritpion = descritpion;
+		this.description = descritpion;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
 		this.miseAPrix = miseAPrix;
@@ -39,7 +39,7 @@ public class ArticleVendu {
 			int miseAPrix, Utilisateur vendeur,  int noCategorie) {
 		super();
 		this.nomArticle = nomArticle;
-		this.descritpion = descritpion;
+		this.description = descritpion;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
 		this.miseAPrix = miseAPrix;
@@ -72,12 +72,12 @@ public class ArticleVendu {
 		this.nomArticle = nomArticle;
 	}
 
-	public String getDescritpion() {
-		return descritpion;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescritpion(String descritpion) {
-		this.descritpion = descritpion;
+	public void setDescription(String descritpion) {
+		this.description = descritpion;
 	}
 
 	public Date getDateDebutEncheres() {

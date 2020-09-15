@@ -39,7 +39,7 @@
 
             </div>
           <c:forEach items="${articles_encheres}" var="article">
-            <div class="container-item ">
+            <a href="${pageContext.request.contextPath}/Encherir?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
 						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
@@ -51,7 +51,7 @@
                         <span class="seller">${article.vendeur.pseudo}</span>
                     </div>
                 </div>
-            </div>
+            </a>
           </c:forEach>
 
         </div>

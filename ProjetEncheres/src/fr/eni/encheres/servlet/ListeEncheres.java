@@ -78,7 +78,7 @@ public class ListeEncheres extends HttpServlet {
 		}
 		
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/liste_encheres.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/listeEncheres.jsp");
 		rd.forward(request, response);
 	}
 

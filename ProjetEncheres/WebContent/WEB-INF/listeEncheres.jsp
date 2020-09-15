@@ -16,15 +16,16 @@
                     <div class="enchere-filtre">
                         <h4>filtres : </h4>
                         <div class="txtinput">
-                            <label><i class="fa fa-search" aria-hidden="true"></i></label>
-                            <input type="text" name="" id="" placeholder="Le nom de l'article contient">
+                            <label for="frag_name"><i class="fa fa-search" aria-hidden="true"></i></label>
+                            <input type="text" name="frag_name" id="frag_name" placeholder="Le nom de l'article contient" value="<c:out value="${fragmenNom}"/>">
                         </div>
-                        <div>
+                        <div class="txtinput">
                             <label>Categorie :</label>
-                            <select name="">
-                            <c:forEach items="${categories}" var="categ">
-                                <option>${categ.libelle}</option>
-                            </c:forEach>
+                            <select name="categ" >
+                            <Option	value="0">Tous</Option>
+                          <c:forEach items="${categories}" var="categ">
+                              <option <c:if test="${categ.noCategorie==noCateg}">selected</c:if> value="${categ.noCategorie}">${categ.libelle}</option>
+                          </c:forEach>
                             </select>
                         </div>
 
@@ -38,7 +39,7 @@
 
             </div>
           <c:forEach items="${articles_encheres}" var="article">
-            <div class="container-item ">
+            <a href="${pageContext.request.contextPath}/Encherir?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
 						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
@@ -50,7 +51,7 @@
                         <span class="seller">${article.vendeur.pseudo}</span>
                     </div>
                 </div>
-            </div>
+            </a>
           </c:forEach>
 
         </div>

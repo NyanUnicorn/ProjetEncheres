@@ -10,6 +10,7 @@ import java.util.List;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.EtatVente;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
@@ -67,8 +68,15 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 	private static final String select_category = 
 			"SELECT [no_categorie]\r\n" + 
 			"      ,[libelle]\r\n" + 
-			"FROM [dbo].[CATEGORIES]]\r\n" +
+			"FROM [dbo].[CATEGORIES]\r\n" +
 			"WHERE [no_categorie] = ? ";
+	private static final String select_retrait = 
+			"SELECT [no_article]\r\n" + 
+			"    ,[rue]\r\n" + 
+			"    ,[code_postal]\r\n" + 
+			"    ,[ville]\r\n" + 
+			"FROM [dbo].[RETRAITS]\r\n" + 
+			"WHERE [no_article] = ?";
 	private static final String select_en_cours =
 			"SELECT va.[no_article]\r\n" + 
 			"    ,va.[nom_article]\r\n" + 
@@ -97,9 +105,18 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			"    ,va.[no_acheteur]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"WHERE va.[date_fin_encheres] > GETDATE()\r\n" + 
-			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ?)\r\n" + 
-			"AND va.[nom_article] =  ? ";
+			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ? END)\r\n" + 
+			"AND va.[nom_article] LIKE  ? ";
 	private static final int update_id_index = 9;
+	private static final String select_best_offer =
+			"SELECT \r\n" + 
+			"	e.no_utilisateur\r\n" + 
+			"	,e.no_article\r\n" + 
+			"	,e.date_enchere\r\n" + 
+			"	,e.montant_enchere\r\n" + 
+			"FROM [ENCHERES] e\r\n" + 
+			"WHERE e.[no_article] = ?\r\n" + 
+			"AND [montant_enchere] = (SELECT MAX(montant_enchere) FROM [ENCHERES] WHERE [no_article] = ?)";
 	
 	
 	@Override
@@ -107,7 +124,7 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 		Categorie item = null;
 		Connection conn = getConnection();
 		try {
-			PreparedStatement stm = conn.prepareStatement(getSelectById());
+			PreparedStatement stm = conn.prepareStatement(getSelectCategory());
 			ToDBIdMapper(stm,_art.getCategorie().getNoCategorie(),1);
 			ResultSet res = stm.executeQuery();
 			if(res.next()) {
@@ -130,12 +147,16 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 		return item;
 	}
 
+	private String getSelectCategory() {
+		return select_category;
+	}
+
 	@Override
 	public Retrait getRetrait(ArticleVendu _art) throws DalException {
 		Retrait item = null;
 		Connection conn = getConnection();
 		try {
-			PreparedStatement stm = conn.prepareStatement(getSelectById());
+			PreparedStatement stm = conn.prepareStatement(getSelectRetrait());
 			ToDBIdMapper(stm,_art.getNoArticle(),1);
 			ResultSet res = stm.executeQuery();
 			if(res.next()) {
@@ -155,6 +176,10 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			}
 		}
 		return item;
+	}
+
+	private String getSelectRetrait() {
+		return select_retrait;
 	}
 
 	@Override
@@ -225,6 +250,39 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 	private String getSelectEnCoursFiltre() {
 		return select_en_cours_filtre;
 	}
+	
+
+	@Override
+	public Enchere getBestOffer(ArticleVendu _art) throws DalException {
+		Enchere item = null;
+		Connection conn = getConnection();
+		try {
+			PreparedStatement stm = conn.prepareStatement(getSelectBestOffer());
+			ToDBIdMapper(stm, _art.getNoArticle(), 1);
+			ToDBIdMapper(stm, _art.getNoArticle(), 2);
+			ResultSet res = stm.executeQuery();
+			if(res.next()) {
+				item = Mssql_EncheresDAOimp.S_FromDbMapper(res);
+			}
+		} catch (SQLException e) {
+			throw new DalException(/*DALExceptionCode.DAL_COULD_NOT_SELECT_BY_ID*/);
+		}finally {
+			if(conn != null) {
+				try {
+					if(!conn.isClosed()) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return item;
+	}
+
+	private String getSelectBestOffer() {
+		return select_best_offer;
+	}
 
 	@Override
 	protected String getInsert() {
@@ -282,7 +340,7 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			_stm.setInt(i++, _item.getPrixVente());
 			_stm.setInt(i++, _item.getVendeur().getNoUtilisateur());
 			_stm.setInt(i++, _item.getCategorie().getNoCategorie());
-			_stm.setString(i++, _item.getDescritpion());
+			_stm.setString(i++, _item.getDescription());
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DalException(DalException.DAL_ERROR_WRITING_DATA);
@@ -347,5 +405,6 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 		}
 		return art;
 	}
+
 
 }

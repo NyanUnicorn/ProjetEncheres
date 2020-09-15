@@ -3,6 +3,9 @@ package fr.eni.encheres.bll;
 import java.util.List;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Enchere;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.DalException;
 import fr.eni.encheres.dal.specifique.ArticleVenduDAO;
@@ -75,5 +78,39 @@ public class ArticleVenduManager {
 		return lst;
 	}
 	
+	public Retrait GetLieuRetrait(ArticleVendu _av) throws BllException{
+		Retrait retrait = null;
+		try {
+			retrait = getAdapter().getRetrait(_av);
+			_av.setLieuRetrait(retrait);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return retrait;
+	}
+	
+	public Categorie GetCategorie(ArticleVendu _av) throws BllException{
+		Categorie categ = null;
+		try {
+			categ = getAdapter().getCategory(_av);
+			_av.setCategorie(categ);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return categ;
+	}
+	
+	public Enchere getBestOffer(ArticleVendu _av) throws BllException{
+		Enchere enchere = null;
+		try {
+			enchere = getAdapter().getBestOffer(_av);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return enchere;
+	}
 	
 }

@@ -46,11 +46,23 @@ nav a{
     height: 30px;
     padding: 0 10px;
 }
+nav .nav-right a:hover{
+    color: var(--accentf);
+    height: 28px;
+    border-bottom: var(--accent9) 2px solid;
+}
 nav a h3{
     margin: 0;
 }
 .nav-right{
     text-align: right;
+}
+nav a > i{
+    visibility: collapse;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    overflow: hidden;
 }
 
 /*
@@ -113,6 +125,10 @@ form .txtinput input{
     font-family: 'Handlee', cursive;
     
 }
+form .txtinput select{
+    font-family: 'Handlee', cursive;
+    border: none;    
+}
 .button{
     font-family: 'Handlee', cursive;
     background-color: transparent;
@@ -135,6 +151,14 @@ form .txtinput input{
 input.button{
     height: 46px;
 }
+form .form-detail{
+    display: grid;
+    grid-template-columns: 36% 64%;
+}
+/*
+\ Form
+/ Page
+*/
 .spacer{
     width: 100%;
     height: 50px;
@@ -261,17 +285,44 @@ input.button{
 width:25%;
 }
 
-/*
-@media only screen and (max-width: 8000px) {
+.grouping{
+    border: var(--accent6) 1px solid;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 5px;
+}
+div.article-description{
+    height: 100px;
+}
+div.article-description > textarea{
+    height: 90px;
+    resize: none;
+    font-family: 'Handlee', cursive;
+    outline: none;
+    border-radius: 15px;
+}
+form input[type="file"] {
+    width: 98%;
+}
+
+.no-show{
+    z-index: 0;
+    display: block;
+    position: unset;
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+@media only screen and (min-width: 800px) {
+
     div.container{
         width: 800px;
     }
-}
-*/ 
-
-@media only screen and (max-width: 1300px) {
-    div.container{
-        width: 800px;
+    form.fill-form.fill-form-1-2{
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: repeat(auto);
     }
 }
 
@@ -299,6 +350,19 @@ width:25%;
     }
     form.fill-form .grid-col-span-2{
         grid-column: span 1;
+    }
+    nav a > span{
+        visibility: collapse;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+    nav a > i{
+        visibility: visible;
+        display: inline-block;
+        width: auto;
+        height: auto;
     }
 }
 

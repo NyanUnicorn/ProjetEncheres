@@ -18,11 +18,11 @@
 										
 					<div class = "Identifiant txtinput" >
 						<label for="identifiant" class="labelIdentification">Identifiant:</label>
-						<input type="text" name="identifiant" name id placeholder=""  value ="<c:out value="${!empty password}"/>"/>
+						<input type="text" name="identifiant" name id placeholder="" <c:if test="${!empty identifiant }"> value ="<c:out value="${ identifiant}"/>"</c:if>/>
 					</div>
 					<div class ="password txtinput">
 						<label for="password" >Mot de passe:</label>
-						<input type="password"  name="password" name id placeholder=""/>
+						<input type="password"  name="password" name id placeholder="" <c:if test="${!empty password }"> value ="<c:out value="${ password}"/>"</c:if>/>
 					</div>
 					<div class="optionConnexion">
 						<div class="btconnexion">
@@ -39,7 +39,7 @@
 						</div >
 					</div>
 					<div class="creation-compte">
-						<input class"button"  type="submit" value="Créer un compte"/>
+						<a href="${pageContext.request.contextPath}/CreerProfile"> Créer un compte </a>
 					</div>
 				</div>
 			</form>

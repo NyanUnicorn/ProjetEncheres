@@ -92,7 +92,7 @@ public class Connexion extends HttpServlet {
 				session = request.getSession();
 				session.setAttribute("utilisateur", user);
 				String[] value =request.getParameterValues("souvenir_mdp"); 
-				if(value[0].equals("on")) {
+				if(value!= null && value[0].equals("on")) {
 					Cookie cookiePseudo = new Cookie("pseudo", identifiant);
 					Cookie cookiePwd = new Cookie("pwd", password);
 					cookiePseudo.setMaxAge(60*60*24*30);
@@ -101,8 +101,7 @@ public class Connexion extends HttpServlet {
 					response.addCookie(cookiePwd);
 				}
 
-				RequestDispatcher rd = request.getRequestDispatcher("/Web-INF/liste_encheres.jsp");
-				rd.forward(request, response);				
+				response.sendRedirect(request.getContextPath());				
 			}else {
 				request.setAttribute("erreurConnexion", true);
 				doGet(request, response);

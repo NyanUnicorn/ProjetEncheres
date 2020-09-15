@@ -13,6 +13,56 @@ import fr.eni.encheres.dal.DalException;
 import fr.eni.encheres.dal.specifique.UtilisateurDAO;
 
 public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> implements UtilisateurDAO{
+	private static final String insert=
+			"";
+	private static final String select =
+			"SELECT [no_utilisateur]\r\n" + 
+			"      ,[pseudo]\r\n" + 
+			"      ,[nom]\r\n" + 
+			"      ,[prenom]\r\n" + 
+			"      ,[email]\r\n" + 
+			"      ,[telephone]\r\n" + 
+			"      ,[rue]\r\n" + 
+			"      ,[code_postal]\r\n" + 
+			"      ,[ville]\r\n" + 
+			"      ,[mot_de_passe]\r\n" + 
+			"      ,[credit]\r\n" + 
+			"      ,[administrateur]\r\n" + 
+			"  FROM [dbo].[UTILISATEURS]";
+	private static final String select_by_id=
+			"SELECT [no_utilisateur]\r\n" + 
+			"      ,[pseudo]\r\n" + 
+			"      ,[nom]\r\n" + 
+			"      ,[prenom]\r\n" + 
+			"      ,[email]\r\n" + 
+			"      ,[telephone]\r\n" + 
+			"      ,[rue]\r\n" + 
+			"      ,[code_postal]\r\n" + 
+			"      ,[ville]\r\n" + 
+			"      ,[mot_de_passe]\r\n" + 
+			"      ,[credit]\r\n" + 
+			"      ,[administrateur]\r\n" + 
+			"  FROM [dbo].[UTILISATEURS] WHERE [no_utilisateur]= ?";
+	private static final String update=
+			"";
+	private static final String delete=
+			"";
+	private static final int update_id_index = 1;
+
+	private static final String select_by_pseudo_passwd =
+			"SELECT [no_utilisateur]\r\n" + 
+			"      ,[pseudo]\r\n" + 
+			"      ,[nom]\r\n" + 
+			"      ,[prenom]\r\n" + 
+			"      ,[email]\r\n" + 
+			"      ,[telephone]\r\n" + 
+			"      ,[rue]\r\n" + 
+			"      ,[code_postal]\r\n" + 
+			"      ,[ville]\r\n" + 
+			"      ,[mot_de_passe]\r\n" + 
+			"      ,[credit]\r\n" + 
+			"      ,[administrateur]\r\n" + 
+			"  FROM [dbo].[UTILISATEURS] WHERE [pseudo] like ? AND [mot_de_passe] like ?";
 
 	@Override
 	public void Insert(Utilisateur item) throws DalException {
@@ -93,68 +143,36 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 
 	@Override
 	protected String getInsert() {
-		// TODO Auto-generated method stub
-		return null;
+		return insert;
 	}
 
 	@Override
 	protected String getSelect() {
-		// TODO Auto-generated method stub
-		return null;
+		return select;
 	}
 
 	@Override
 	protected String getSelectById() {
-		// TODO Auto-generated method stub
-		return "SELECT [no_utilisateur]\r\n" + 
-				"      ,[pseudo]\r\n" + 
-				"      ,[nom]\r\n" + 
-				"      ,[prenom]\r\n" + 
-				"      ,[email]\r\n" + 
-				"      ,[telephone]\r\n" + 
-				"      ,[rue]\r\n" + 
-				"      ,[code_postal]\r\n" + 
-				"      ,[ville]\r\n" + 
-				"      ,[mot_de_passe]\r\n" + 
-				"      ,[credit]\r\n" + 
-				"      ,[administrateur]\r\n" + 
-				"  FROM [dbo].[UTILISATEURS] WHERE [no_utilisateur]= ?"
-				;
+		return select_by_id;
 	}
 	
 	protected String getSeleceByPseudoAndPassword() {
-		return "SELECT [no_utilisateur]\r\n" + 
-				"      ,[pseudo]\r\n" + 
-				"      ,[nom]\r\n" + 
-				"      ,[prenom]\r\n" + 
-				"      ,[email]\r\n" + 
-				"      ,[telephone]\r\n" + 
-				"      ,[rue]\r\n" + 
-				"      ,[code_postal]\r\n" + 
-				"      ,[ville]\r\n" + 
-				"      ,[mot_de_passe]\r\n" + 
-				"      ,[credit]\r\n" + 
-				"      ,[administrateur]\r\n" + 
-				"  FROM [dbo].[UTILISATEURS] WHERE [pseudo] like ? AND [mot_de_passe] like ?"
-				;
+		return select_by_pseudo_passwd;
 	}
 
 	@Override
 	protected String getUpdate() {
-		// TODO Auto-generated method stub
-		return null;
+		return update;
 	}
 
 	@Override
 	protected String getDelete() {
-		// TODO Auto-generated method stub
-		return null;
+		return delete;
 	}
 
 	@Override
 	protected int getUpdateIdIndex() {
-		// TODO Auto-generated method stub
-		return 0;
+		return update_id_index;
 	}
 
 	@Override

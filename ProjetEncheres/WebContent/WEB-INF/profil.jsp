@@ -8,7 +8,7 @@
 	<main>
         <div class="container">
             <h2>
-                Mon Profil
+                ${title}
             </h2>
             <form action="" class="fill-form">
                     <div class="txtinput">

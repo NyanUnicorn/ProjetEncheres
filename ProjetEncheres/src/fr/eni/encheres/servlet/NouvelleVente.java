@@ -1,7 +1,6 @@
 package fr.eni.encheres.servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,24 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BllException;
 import fr.eni.encheres.bll.CategorieManager;
-import fr.eni.encheres.bll.EncheresManager;
-import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Enchere;
 
 /**
- * Servlet implementation class ListeEncheres
+ * Servlet implementation class NouvelleVente
  */
-@WebServlet("/Encheres")
-public class ListeEncheres extends HttpServlet {
+@WebServlet("/NouvelleVente")
+public class NouvelleVente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListeEncheres() {
+    public NouvelleVente() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,49 +31,17 @@ public class ListeEncheres extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("title", "Liste des Enchères");
-		ArticleVenduManager amgr = ArticleVenduManager.GetInstace();
+		request.setAttribute("editableArticle", true);
+		request.setAttribute("title", "Nouvelle Vente");
 		CategorieManager cmgr = CategorieManager.GetInstace();
-		List<ArticleVendu> articleEnCours = null;
-		
-		
-		String fragmenNom = request.getParameter("frag_name");
-		if(fragmenNom == null) {
-			fragmenNom = "";				
-		}
-		int noCateg= 0;
-		String sNoCateg = request.getParameter("categ");
-		if(sNoCateg != null && sNoCateg != "") {
-			noCateg = Integer.parseInt(sNoCateg);
-		}
-		
-		
-		try {
-			articleEnCours = amgr.GetLast(noCateg, fragmenNom);
-			if(articleEnCours != null) {
-				for(ArticleVendu a : articleEnCours) {
-					//récupérer le vendeur
-				}
-			
-			}
-			request.setAttribute("articles_encheres", articleEnCours);
-		} catch (BllException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 
-		request.setAttribute("fragmenNom", fragmenNom);
-		request.setAttribute("noCateg", noCateg);
-		
 		try {
 			request.setAttribute("categories", cmgr.Get());
 		} catch (BllException e) {
 			e.printStackTrace();
 		}
 		
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/listeEncheres.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/article.jsp");
 		rd.forward(request, response);
 	}
 

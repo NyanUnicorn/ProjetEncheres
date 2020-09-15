@@ -417,7 +417,7 @@ WHERE [date_enchere] < GETDATE()
 		}
 	}
 	
-	protected Enchere S_FromDbMapper(ResultSet _res) throws DalException {
+	public static Enchere S_FromDbMapper(ResultSet _res) throws DalException {
 		Enchere ench = null;
 		int userId = 0;
 		int articleId = 0;

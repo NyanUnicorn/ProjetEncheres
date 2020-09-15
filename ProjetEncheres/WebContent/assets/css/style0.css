@@ -16,6 +16,7 @@ body{
     color: var(foreground);
     font-family: 'Handlee', cursive;
 }
+
 nav{
     width: 100%;
     height: 30px;
@@ -181,6 +182,85 @@ input.button{
     text-align: center;
 }
 
+.containerConnexion
+{
+    width: 800px;
+	height:500 px;
+    margin: 0 auto;
+    margin-top: 50px;
+    height: 100px;	
+	display : grid;
+
+	
+}
+
+.Identifiant
+{
+	grid-row:2;
+	grid-column : 1 / span 2;
+	
+}
+.password
+{
+	grid-row:3;
+	grid-column:1 / span 2;
+	
+}
+
+.container-connexion{
+    padding: 5px;
+    margin-bottom: 10px;
+	
+}
+
+.btconnexion
+{
+	padding: 5px;
+    margin-bottom: 10px;
+	grid-column:1;
+	grid-row:4;
+	display : inline;
+}
+
+.container-connexionPwd
+{
+	padding: 5px;
+    display: inline-block;
+    margin-bottom: 10px;
+	grid-column:2;
+	grid-row:4;
+	
+}
+
+.creation-compte
+{
+	grid-row:5;
+	grid-column: 1 / sapn 2;
+}
+
+.optionConnexion
+{
+	grid-row : 4;
+	grid-column : 1 /span 2;
+	
+	grid-template-columns: 20% auto;
+	grid-template-rows : subgrid;
+	
+	display: grid;
+}
+.erreurConnexion
+{
+	grid-row:1 ;
+	grid-column: 1 / sapn 2;
+	display: block;
+}
+
+
+.labelIdentification{
+	display : inline-block;
+width:25%;
+}
+
 /*
 @media only screen and (max-width: 8000px) {
     div.container{
@@ -221,3 +301,5 @@ input.button{
         grid-column: span 1;
     }
 }
+
+

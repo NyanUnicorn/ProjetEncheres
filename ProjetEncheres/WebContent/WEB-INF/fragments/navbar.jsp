@@ -11,7 +11,7 @@
     </div>
     <div class="nav-right">
 <c:choose>
-<c:when test="${true}">
+<c:when test="${connected}">
 		<a href="${pageContext.request.contextPath}">
             <span>Enchères</span>
             <i class="fa fa-list" aria-hidden="true"></i>
@@ -30,7 +30,7 @@
         </a>
 </c:when>
 <c:otherwise>
-        <a href="">
+        <a href="${pageContext.request.contextPath}/Connexion">
         	<span>s'inscrir - se connecter</span>
           	<i class="fa fa-sign-in" aria-hidden="true"></i>
         </a>

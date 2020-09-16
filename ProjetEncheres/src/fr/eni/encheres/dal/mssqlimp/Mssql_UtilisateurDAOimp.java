@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.bo.ArticleVendu;
@@ -29,7 +30,7 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 			"      ,[credit]\r\n" + 
 			"      ,[administrateur]\r\n" + 
 			"  FROM [dbo].[UTILISATEURS]";
-	private static final String select_by_id=
+	private static final String select_by_id =
 			"SELECT [no_utilisateur]\r\n" + 
 			"      ,[pseudo]\r\n" + 
 			"      ,[nom]\r\n" + 
@@ -63,6 +64,95 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 			"      ,[credit]\r\n" + 
 			"      ,[administrateur]\r\n" + 
 			"  FROM [dbo].[UTILISATEURS] WHERE [pseudo] like ? AND [mot_de_passe] like ?";
+	
+	private static final String select_encheres_en_cours =
+			"SELECT va.[no_article]\r\n" + 
+			"    ,va.[nom_article]\r\n" + 
+			"    ,va.[date_debut_encheres]\r\n" + 
+			"    ,va.[date_fin_encheres]\r\n" + 
+			"    ,va.[prix_initial]\r\n" + 
+			"    ,va.[prix_vente]\r\n" + 
+			"    ,va.[no_vendeur]\r\n" + 
+			"    ,va.[no_categorie]\r\n" + 
+			"    ,va.[description]\r\n" + 
+			"    ,va.[etat_vente]\r\n" + 
+			"    ,va.[no_acheteur]\r\n" + 
+			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
+			"JOIN [dbo].[ENCHERES] e ON e.[no_article] = va.[no_article]\r\n" + 
+			"WHERE va.[date_fin_encheres] > GETDATE()\r\n" + 
+			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ? END)\r\n" + 
+			"AND va.[nom_article] LIKE  ? \r\n" + 
+			"AND e.[no_utilisateur] = ? ";
+	private static final String select_encheres_remportees =
+			"SELECT va.[no_article]\r\n" + 
+			"    ,va.[nom_article]\r\n" + 
+			"    ,va.[date_debut_encheres]\r\n" + 
+			"    ,va.[date_fin_encheres]\r\n" + 
+			"    ,va.[prix_initial]\r\n" + 
+			"    ,va.[prix_vente]\r\n" + 
+			"    ,va.[no_vendeur]\r\n" + 
+			"    ,va.[no_categorie]\r\n" + 
+			"    ,va.[description]\r\n" + 
+			"    ,va.[etat_vente]\r\n" + 
+			"    ,va.[no_acheteur]\r\n" + 
+			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
+			"JOIN [dbo].[ENCHERES] e ON e.[no_article] = va.[no_article] AND e.[montant_enchere] = va.[prix_vente]\r\n" + 
+			"WHERE va.[date_fin_encheres] < GETDATE()\r\n" + 
+			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ? END)\r\n" + 
+			"AND va.[nom_article] LIKE  ? \r\n" + 
+			"AND e.[no_utilisateur] = ? ";
+	private static final String select_vente_en_cours =
+			"SELECT va.[no_article]\r\n" + 
+			"    ,va.[nom_article]\r\n" + 
+			"    ,va.[date_debut_encheres]\r\n" + 
+			"    ,va.[date_fin_encheres]\r\n" + 
+			"    ,va.[prix_initial]\r\n" + 
+			"    ,va.[prix_vente]\r\n" + 
+			"    ,va.[no_vendeur]\r\n" + 
+			"    ,va.[no_categorie]\r\n" + 
+			"    ,va.[description]\r\n" + 
+			"    ,va.[etat_vente]\r\n" + 
+			"    ,va.[no_acheteur]\r\n" + 
+			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
+			"WHERE va.[date_debut_encheres] < GETDATE()\r\n" + 
+			"AND va.[date_fin_encheres] > GETDATE()\r\n" + 
+			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ? END)\r\n" + 
+			"AND va.[nom_article] LIKE  ? \r\n" + 
+			"AND va.[no_vendeur] = ? ";
+	private static final String select_ventes_non_debutees =
+			"SELECT va.[no_article]\r\n" + 
+			"    ,va.[nom_article]\r\n" + 
+			"    ,va.[date_debut_encheres]\r\n" + 
+			"    ,va.[date_fin_encheres]\r\n" + 
+			"    ,va.[prix_initial]\r\n" + 
+			"    ,va.[prix_vente]\r\n" + 
+			"    ,va.[no_vendeur]\r\n" + 
+			"    ,va.[no_categorie]\r\n" + 
+			"    ,va.[description]\r\n" + 
+			"    ,va.[etat_vente]\r\n" + 
+			"    ,va.[no_acheteur]\r\n" + 
+			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
+			"WHERE va.[date_debut_encheres] < GETDATE()\r\n" + 
+			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ? END)\r\n" + 
+			"AND va.[nom_article] LIKE ? \r\n" + 
+			"AND va.[no_vendeur] = ? ";
+	private static final String select_ventes_terminees =
+			"SELECT va.[no_article]\r\n" + 
+			"    ,va.[nom_article]\r\n" + 
+			"    ,va.[date_debut_encheres]\r\n" + 
+			"    ,va.[date_fin_encheres]\r\n" + 
+			"    ,va.[prix_initial]\r\n" + 
+			"    ,va.[prix_vente]\r\n" + 
+			"    ,va.[no_vendeur]\r\n" + 
+			"    ,va.[no_categorie]\r\n" + 
+			"    ,va.[description]\r\n" + 
+			"    ,va.[etat_vente]\r\n" + 
+			"    ,va.[no_acheteur]\r\n" + 
+			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
+			"WHERE va.[date_fin_encheres] < GETDATE()\r\n" + 
+			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ? END)\r\n" + 
+			"AND va.[nom_article] LIKE ? \r\n" + 
+			"AND va.[no_vendeur] = ? ";
 
 	@Override
 	public void Insert(Utilisateur item) throws DalException {
@@ -103,6 +193,176 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 		}
 		
 		return user;
+	}
+	
+	@Override
+	public List<ArticleVendu> selectEncheresEnCours(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom,
+			Utilisateur user) throws DalException {
+		List<ArticleVendu> lst = null;
+		Connection conn = getConnection();
+		try {
+			PreparedStatement stm = conn.prepareStatement(getSelectEncheresEnCours());
+			stm.setInt(1, noCateg);
+			stm.setInt(2, noCateg);
+			stm.setString(3, "%"+fragmenNom+"%");
+			stm.setInt(4, user.getNoUtilisateur() );
+			ResultSet res = stm.executeQuery();
+			if(res.next()) {
+				lst = new ArrayList<ArticleVendu>();
+				do {
+					lst.add(Mssql_ArticleVenduDAOimp.S_FromDbMapper(res));					
+				}while(res.next());
+			}
+		} catch (SQLException e) {
+			throw new DalException();
+		}finally {
+			if(conn != null) {
+				try {
+					if(!conn.isClosed()) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lst;
+	}
+
+	@Override
+	public List<ArticleVendu> selectEncheresRemportees(List<ArticleVendu> articleEnCours, int noCateg,
+			String fragmenNom, Utilisateur user) throws DalException {
+		List<ArticleVendu> lst = null;
+		Connection conn = getConnection();
+		try {
+			PreparedStatement stm = conn.prepareStatement(getSelectEncheresRemportees());
+			stm.setInt(1, noCateg);
+			stm.setInt(2, noCateg);
+			stm.setString(3, "%"+fragmenNom+"%");
+			stm.setInt(4, user.getNoUtilisateur() );
+			ResultSet res = stm.executeQuery();
+			if(res.next()) {
+				lst = new ArrayList<ArticleVendu>();
+				do {
+					lst.add(Mssql_ArticleVenduDAOimp.S_FromDbMapper(res));					
+				}while(res.next());
+			}
+		} catch (SQLException e) {
+			throw new DalException();
+		}finally {
+			if(conn != null) {
+				try {
+					if(!conn.isClosed()) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lst;
+	}
+
+	@Override
+	public List<ArticleVendu> selectVenteEnCours(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom,
+			Utilisateur user) throws DalException {
+		List<ArticleVendu> lst = null;
+		Connection conn = getConnection();
+		try {
+			PreparedStatement stm = conn.prepareStatement(getSelectVenteEnCours());
+			stm.setInt(1, noCateg);
+			stm.setInt(2, noCateg);
+			stm.setString(3, "%"+fragmenNom+"%");
+			stm.setInt(4, user.getNoUtilisateur() );
+			ResultSet res = stm.executeQuery();
+			if(res.next()) {
+				lst = new ArrayList<ArticleVendu>();
+				do {
+					lst.add(Mssql_ArticleVenduDAOimp.S_FromDbMapper(res));					
+				}while(res.next());
+			}
+		} catch (SQLException e) {
+			throw new DalException();
+		}finally {
+			if(conn != null) {
+				try {
+					if(!conn.isClosed()) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lst;
+	}
+
+	@Override
+	public List<ArticleVendu> selectVentesNonDebutees(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom,
+			Utilisateur user) throws DalException {
+		List<ArticleVendu> lst = null;
+		Connection conn = getConnection();
+		try {
+			PreparedStatement stm = conn.prepareStatement(getSelectVentesNonDebutees() );
+			stm.setInt(1, noCateg);
+			stm.setInt(2, noCateg);
+			stm.setString(3, "%"+fragmenNom+"%");
+			stm.setInt(4, user.getNoUtilisateur() );
+			ResultSet res = stm.executeQuery();
+			if(res.next()) {
+				lst = new ArrayList<ArticleVendu>();
+				do {
+					lst.add(Mssql_ArticleVenduDAOimp.S_FromDbMapper(res));					
+				}while(res.next());
+			}
+		} catch (SQLException e) {
+			throw new DalException();
+		}finally {
+			if(conn != null) {
+				try {
+					if(!conn.isClosed()) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lst;
+	}
+
+	@Override
+	public List<ArticleVendu> selectVentesTerminees(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom,
+			Utilisateur user) throws DalException {
+		List<ArticleVendu> lst = null;
+		Connection conn = getConnection();
+		try {
+			PreparedStatement stm = conn.prepareStatement(getSelectVentesTerminees() );
+			stm.setInt(1, noCateg);
+			stm.setInt(2, noCateg);
+			stm.setString(3, "%"+fragmenNom+"%");
+			stm.setInt(4, user.getNoUtilisateur() );
+			ResultSet res = stm.executeQuery();
+			if(res.next()) {
+				lst = new ArrayList<ArticleVendu>();
+				do {
+					lst.add(Mssql_ArticleVenduDAOimp.S_FromDbMapper(res));					
+				}while(res.next());
+			}
+		} catch (SQLException e) {
+			throw new DalException();
+		}finally {
+			if(conn != null) {
+				try {
+					if(!conn.isClosed()) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lst;
 	}
 
 	@Override
@@ -180,7 +440,27 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	protected String getSelectEncheresEnCours() {
+		return select_encheres_en_cours;
+	}
 
+	protected String getSelectEncheresRemportees() {
+		return select_encheres_remportees;
+	}
+
+	protected String getSelectVenteEnCours() {
+		return select_vente_en_cours;
+	}
+
+	protected String getSelectVentesNonDebutees() {
+		return select_ventes_non_debutees;
+	}
+
+	protected String getSelectVentesTerminees() {
+		return select_ventes_terminees;
+	}
+	
 	@Override
 	protected void FromDbIdMapper(int _res, Utilisateur _item) throws DalException {
 		// TODO Auto-generated method stub
@@ -189,25 +469,7 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 
 	@Override
 	protected Utilisateur FromDbMapper(ResultSet _res) throws DalException {
-		Utilisateur userFromMapper = new Utilisateur();
-		try {
-			userFromMapper.setNoUtilisateur(_res.getInt("no_utilisateur"));
-			userFromMapper.setPseudo(_res.getString("pseudo"));
-			userFromMapper.setNom(_res.getString("nom"));
-			userFromMapper.setPrenom(_res.getString("prenom"));
-			userFromMapper.setEmail(_res.getString("email"));
-			userFromMapper.setTelephone(_res.getString("telephone"));
-			userFromMapper.setRue(_res.getString("rue"));
-			userFromMapper.setCodePostal(_res.getString("code_postal"));
-			userFromMapper.setVille(_res.getString("ville"));
-			userFromMapper.setMotDePasse(_res.getString("mot_de_passe"));
-			userFromMapper.setCredit(_res.getInt("credit"));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new DalException();
-		}
-		return userFromMapper;
+		return s_FromDbMapper(_res);
 	}
 
 	@Override
@@ -278,5 +540,29 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public Utilisateur s_FromDbMapper(ResultSet _res) throws DalException {
+		Utilisateur userFromMapper = new Utilisateur();
+		try {
+			userFromMapper.setNoUtilisateur(_res.getInt("no_utilisateur"));
+			userFromMapper.setPseudo(_res.getString("pseudo"));
+			userFromMapper.setNom(_res.getString("nom"));
+			userFromMapper.setPrenom(_res.getString("prenom"));
+			userFromMapper.setEmail(_res.getString("email"));
+			userFromMapper.setTelephone(_res.getString("telephone"));
+			userFromMapper.setRue(_res.getString("rue"));
+			userFromMapper.setCodePostal(_res.getString("code_postal"));
+			userFromMapper.setVille(_res.getString("ville"));
+			userFromMapper.setMotDePasse(_res.getString("mot_de_passe"));
+			userFromMapper.setCredit(_res.getInt("credit"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new DalException();
+		}
+		return userFromMapper;
+	}
+
+	
 
 }

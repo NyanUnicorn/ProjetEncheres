@@ -75,4 +75,36 @@ public class UtilisateurManager {
 		return lst;
 	}
 	
+	public List<ArticleVendu> getVentesEnCours(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom, Utilisateur user) throws BllException{
+		List<ArticleVendu> lst = null;
+		try {
+			lst = getAdapter().selectVenteEnCours(articleEnCours, noCateg, fragmenNom, user);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return lst;
+	}
+	
+	public List<ArticleVendu> getVentesNonDebutees(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom, Utilisateur user) throws BllException{
+		List<ArticleVendu> lst = null;
+		try {
+			lst = getAdapter().selectVentesNonDebutees(articleEnCours, noCateg, fragmenNom, user);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return lst;
+	}
+	
+	public List<ArticleVendu> getVentesTerminees(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom, Utilisateur user) throws BllException{
+		List<ArticleVendu> lst = null;
+		try {
+			lst = getAdapter().selectVentesTerminees(articleEnCours, noCateg, fragmenNom, user);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return lst;
+	}
 }

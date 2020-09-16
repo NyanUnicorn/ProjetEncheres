@@ -28,6 +28,50 @@
                           </c:forEach>
                             </select>
                         </div>
+<c:if test="${connected}">
+						<div class="col-1-1">
+                            <div class="rdo-cbx">
+                                <div class="rdoinput">
+                                    <input type="radio" name="achatvente" id="rdoAchat" value="0">
+                                    <label for="rdoAchat">Achats</label>
+                                </div>
+                                <div>
+                                    <div class="cbxinput">
+                                        <input type="checkbox" name="encheresOuverte" id="eo">
+                                        <label for="eo">encheres ouvertes</label>
+                                    </div>
+                                    <div class="cbxinput">
+                                        <input type="checkbox" name="mesEncheresEnCours" id="meec">
+                                        <label for="meec">mes enchers en cours</label>
+                                    </div>
+                                    <div class="cbxinput">
+                                        <input type="checkbox" name="mesEncheresRemportees" id="mer">
+                                        <label for="mer">mes enchères remportées</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rdo-cbx">
+                                <div class="rdoinput">
+                                    <input type="radio" name="achatvente" id="rdoVente" value="1">
+                                    <label for="rdoVente">Vente</label>
+                                </div>
+                                <div>
+                                    <div class="cbxinput">
+                                        <input type="checkbox" name="mesVenteEnCours" id="mvec">
+                                        <label for="mvec">mes ventes en cours</label>
+                                    </div>
+                                    <div class="cbxinput">
+                                        <input type="checkbox" name="mesVenteNonDebutees" id="mvnd">
+                                        <label for="mvnd">ventes non débutées</label>
+                                    </div>
+                                    <div class="cbxinput">
+                                        <input type="checkbox" name="mesVentesTerminees" id="mvt">
+                                        <label for="mvt">ventes terminées</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+</c:if>
 
                     </div>
                 </div>

@@ -71,12 +71,7 @@ public class Connexion extends HttpServlet {
 		String identifiant;
 		String password;
 		UtilisateurManager userManager = null;
-		try {
-			userManager = new UtilisateurManager();
-		} catch (BllException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		userManager = new UtilisateurManager();
 		Utilisateur user = null; 
 		HttpSession session = null;
 		

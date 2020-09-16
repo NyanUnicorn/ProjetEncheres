@@ -129,6 +129,24 @@ form .txtinput select{
     font-family: 'Handlee', cursive;
     border: none;    
 }
+form .cbxinput{
+    height: 22px;
+    padding: 1px 7px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+form .rdoinput{
+    height: 22px;
+    padding: 1px 7px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 .button{
     font-family: 'Handlee', cursive;
     background-color: transparent;
@@ -154,6 +172,9 @@ input.button{
 form .form-detail{
     display: grid;
     grid-template-columns: 36% 64%;
+}
+.rdo-cbx > *:nth-child(n+2){
+    margin-left: 20px;
 }
 /*
 \ Form
@@ -313,6 +334,10 @@ form input[type="file"] {
     height: 0;
     opacity: 0;
 }
+.col-1-1{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
 
 @media only screen and (min-width: 800px) {
 
@@ -363,6 +388,9 @@ form input[type="file"] {
         display: inline-block;
         width: auto;
         height: auto;
+    }
+    .col-1-1{
+        grid-template-columns: 1fr;
     }
 }
 

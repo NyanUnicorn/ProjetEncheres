@@ -1,16 +1,22 @@
 package fr.eni.encheres.servlet;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BllException;
@@ -24,6 +30,9 @@ import fr.eni.encheres.bo.Utilisateur;
  * Servlet implementation class NouvelleVente
  */
 @WebServlet("/NouvelleVente")
+@MultipartConfig( fileSizeThreshold = 1024 * 1024, 
+	maxFileSize = 1024 * 1024 * 5, 
+	maxRequestSize = 1024 * 1024 * 5 * 5 )
 public class NouvelleVente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -35,6 +44,12 @@ public class NouvelleVente extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    @Override
+    public void init() throws ServletException {
+        File uploadDir = new File( "" );
+        if ( ! uploadDir.exists() ) uploadDir.mkdir();
+    }
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -42,6 +57,10 @@ public class NouvelleVente extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/article.jsp");
 		request.setAttribute("editableArticle", true);
 		request.setAttribute("title", "Nouvelle Vente");
+		HttpSession session = request.getSession();
+		Utilisateur user = (Utilisateur)session.getAttribute("utilisateur");
+		boolean connected = user != null;
+		request.setAttribute("connected", connected);
 		CategorieManager cmgr = CategorieManager.GetInstace();
 
 		//set attributes for article based on parameters from previous input
@@ -64,6 +83,16 @@ public class NouvelleVente extends HttpServlet {
 		ArticleVenduManager amgr = ArticleVenduManager.GetInstace();
 		RetraitManager rmgr = RetraitManager.GetInstace();
 		Utilisateur user = (Utilisateur)session.getAttribute("utilisateur");
+		//manage image
+		/*
+		File currentDirFile = new File(".");
+		String helper = currentDirFile.getAbsolutePath();
+		String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
+		String str = System.getProperty("user.dir");
+		*/
+		
+		Collection<Part> parts = request.getParts();
+		
 		
 		ArticleVendu art = s_fromRequestArticleMapper(params, user);
 		boolean success = false;

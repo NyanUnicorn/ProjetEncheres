@@ -132,7 +132,7 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 			"    ,va.[etat_vente]\r\n" + 
 			"    ,va.[no_acheteur]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
-			"WHERE va.[date_debut_encheres] < GETDATE()\r\n" + 
+			"WHERE va.[date_debut_encheres] > GETDATE()\r\n" + 
 			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ? END)\r\n" + 
 			"AND va.[nom_article] LIKE ? \r\n" + 
 			"AND va.[no_vendeur] = ? ";

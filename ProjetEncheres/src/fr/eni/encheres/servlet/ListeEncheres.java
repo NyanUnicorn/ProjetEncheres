@@ -68,11 +68,12 @@ public class ListeEncheres extends HttpServlet {
 		boolean achatvente = true;
 		String sAchatVente = request.getParameter("achatvente");
 		if(sAchatVente != null) {
-			achatvente = sAchatVente != null ? Integer.parseInt(sAchatVente) == 0 : false;			
+			achatvente = sAchatVente != null ? Integer.parseInt(sAchatVente) == 0 : false;
 		}
 			
 		if(connected && achatvente) {
-			boolean encheresOuverte = true;
+			request.setAttribute("rdachat", achatvente);
+			boolean encheresOuverte = !request.getParameterNames().hasMoreElements();
 			boolean mesEncheresEnCours = false;
 			boolean mesEncheresRemportees = false;
 			{
@@ -91,15 +92,19 @@ public class ListeEncheres extends HttpServlet {
 			}
 			if(encheresOuverte) {
 				getLast(articleEnCours,noCateg, fragmenNom);
+				request.setAttribute("cxencheresOuverte", encheresOuverte);
 			}
 			if(mesEncheresEnCours) {
 				getMesEncheresEnCours(mesArtEnCours, noCateg, fragmenNom, user);
+				request.setAttribute("cxmesEncheresEnCours", mesEncheresEnCours);
 			}
 			if(mesEncheresRemportees) {
 				getMesEncheresRemportees(mesArtRemp, noCateg, fragmenNom, user);
+				request.setAttribute("cxmesEncheresRemportees", mesEncheresRemportees);
 				//sort out duplicates
 			}
 		}else if(connected && !achatvente) {
+			request.setAttribute("rdvente", !achatvente);
 			boolean mesVenteEnCours = false;
 			boolean mesVenteNonDebutees = false;
 			boolean mesVentesTerminees = false;
@@ -119,12 +124,15 @@ public class ListeEncheres extends HttpServlet {
 			}
 			if(mesVenteEnCours) {
 				getMesVentesEnCours(mesVentesEnCours, noCateg, fragmenNom, user);
+				request.setAttribute("cxmesVenteEnCours", mesVenteEnCours);
 			}
 			if(mesVenteNonDebutees) {
 				getMesVentesNonDebutees(mesVentesNonDebut, noCateg, fragmenNom, user);
+				request.setAttribute("cxmesVenteNonDebutees", mesVenteNonDebutees);
 			}
 			if(mesVentesTerminees) {
 				getMesVentesTerminees(mesVentesTermin, noCateg, fragmenNom, user);
+				request.setAttribute("cxmesVentesTerminees", mesVentesTerminees);
 			}
 		}else {
 			//select all articles with basic filters

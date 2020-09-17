@@ -16,7 +16,7 @@
             <h2>
                 ${title}
             </h2>
-            <form action="" method="post" class="fill-form  fill-form-1-2">
+            <form action="" method="post" class="fill-form  fill-form-1-2" enctype="multipart/form-data">
                 <div class="image">
                     <img src="" alt="">
                 </div>

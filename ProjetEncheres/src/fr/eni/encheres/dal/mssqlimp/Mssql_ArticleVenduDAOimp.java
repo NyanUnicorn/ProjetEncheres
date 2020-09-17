@@ -21,9 +21,9 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 
 	private static final String insert =
 			"INSERT INTO [dbo].[ARTICLES_VENDUS]\r\n" + 
-			"    ([nom_article],[date_debut_encheres],[date_fin_encheres],[prix_initial],[prix_vente],[no_utilisateur],[no_categorie],[description])\r\n" + 
+			"    ([nom_article],[date_debut_encheres],[date_fin_encheres],[prix_initial],[prix_vente],[no_utilisateur],[no_categorie],[description],[image])\r\n" + 
 			"VALUES\r\n" + 
-			"    (?,?,?,?,?,?,?,?)";
+			"    (?,?,?,?,?,?,?,?,?)";
 	private static final String select =
 			"SELECT va.[no_article]\r\n" + 
 			"      ,va.[nom_article]\r\n" + 
@@ -36,6 +36,7 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			"      ,va.[description]\r\n" + 
 			"      ,va.[etat_vente]\r\n" + 
 			"      ,va.[no_acheteur]\r\n" + 
+			"      ,va.[image]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va";
 	private static final String select_by_id =
 			"SELECT va.[no_article]\r\n" + 
@@ -49,6 +50,7 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			"      ,va.[description]\r\n" + 
 			"      ,va.[etat_vente]\r\n" + 
 			"      ,va.[no_acheteur]\r\n" + 
+			"      ,va.[image]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"WHERE va.[no_article] = ?";
 	private static final String update =
@@ -61,6 +63,7 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			"      ,va.[no_utilisateur] = ?\r\n" + 
 			"      ,va.[no_categorie] = ?\r\n" + 
 			"      ,va.[description] = ?\r\n" + 
+			"      ,va.[image] = ?\r\n" + 
 			"WHERE va.[no_article] = ?";
 	private static final String delete =
 			"DELETE FROM [dbo].[ARTICLES_VENDUS] va\r\n" + 
@@ -89,6 +92,7 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			"    ,va.[description]\r\n" + 
 			"    ,va.[etat_vente]\r\n" + 
 			"    ,va.[no_acheteur]\r\n" + 
+			"      ,va.[image]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"WHERE va.[date_fin_encheres] > GETDATE()";
 	private static final String select_en_cours_filtre =
@@ -103,6 +107,7 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			"    ,va.[description]\r\n" + 
 			"    ,va.[etat_vente]\r\n" + 
 			"    ,va.[no_acheteur]\r\n" + 
+			"      ,va.[image]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"WHERE va.[date_fin_encheres] > GETDATE()\r\n" + 
 			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ? END)\r\n" + 
@@ -341,6 +346,7 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			_stm.setInt(i++, _item.getVendeur().getNoUtilisateur());
 			_stm.setInt(i++, _item.getCategorie().getNoCategorie());
 			_stm.setString(i++, _item.getDescription());
+			_stm.setString(i++, _item.getImageName());
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DalException(DalException.DAL_ERROR_WRITING_DATA);
@@ -380,6 +386,7 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 		EtatVente etatVente = null;
 		Utilisateur vendeur = null;
 		Utilisateur acheteur = null;
+		String imageName = null;
 		int categorie = 0;
 		try {
 			noArticle = _res.getInt("no_article");
@@ -399,7 +406,14 @@ public class Mssql_ArticleVenduDAOimp extends Mssql_CrrudDAOimp<ArticleVendu> im
 			}catch (SQLException e) {
 			}
 			categorie = _res.getInt("no_categorie");
+			try {
+				imageName = _res.getString("image");
+			}catch (Exception e) {
+			}
 			art = new ArticleVendu(noArticle,nomArticle,descritpion,dateDebutEncheres,dateFinEncheres,miseAPrix,prixVente,etatVente,vendeur,acheteur,categorie);
+			if(imageName != null) {
+				art.setImageName(imageName);				
+			}
 		}catch (SQLException e) {
 			throw new DalException(DalException.DAL_ERROR_READING_DATA);
 		}

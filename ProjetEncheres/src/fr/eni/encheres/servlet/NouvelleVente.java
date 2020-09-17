@@ -1,12 +1,19 @@
 package fr.eni.encheres.servlet;
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+
+import org.apache.catalina.tribes.util.UUIDGenerator;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 
 import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BllException;
@@ -65,6 +78,8 @@ public class NouvelleVente extends HttpServlet {
 
 		//set attributes for article based on parameters from previous input
 		
+
+		
 		try {
 			request.setAttribute("categories", cmgr.Get());
 		} catch (BllException e) {
@@ -83,18 +98,34 @@ public class NouvelleVente extends HttpServlet {
 		ArticleVenduManager amgr = ArticleVenduManager.GetInstace();
 		RetraitManager rmgr = RetraitManager.GetInstace();
 		Utilisateur user = (Utilisateur)session.getAttribute("utilisateur");
-		//manage image
-		/*
-		File currentDirFile = new File(".");
-		String helper = currentDirFile.getAbsolutePath();
-		String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
-		String str = System.getProperty("user.dir");
-		*/
+
 		
-		Collection<Part> parts = request.getParts();
-		
+		String imageDir = "";
+		String imageName = "";
+		String fileType = "";
+		try {
+			imageDir = (NouvelleVente.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+			Path p = Paths.get(imageDir.substring(1, imageDir.length()-1)).getParent().getParent();
+			imageDir = p.toString();
+			Collection<Part> parts = request.getParts();
+			Part filePart = request.getPart("image");
+			String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+			fileType = fileName.substring(fileName.lastIndexOf(".")+1, fileName.length());
+			InputStream fileContent = filePart.getInputStream();
+			imageName = UUID.randomUUID().toString();
+			File file = new File(imageDir+"\\assets\\image\\article\\" + imageName + "." + fileType);
+			file.createNewFile();
+			OutputStream stream = new DataOutputStream(new FileOutputStream(file));
+			IOUtils.copy(fileContent,stream);
+			stream.close();
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
 		
 		ArticleVendu art = s_fromRequestArticleMapper(params, user);
+		if(!imageName.equals("") && !fileType.equals("")) {
+			art.setImageName(imageName+"."+fileType);			
+		}
 		boolean success = false;
 		if(art!= null) {
 			try {

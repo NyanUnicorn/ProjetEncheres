@@ -7,6 +7,11 @@
 <body>
 <jsp:include page="/WEB-INF/fragments/navbar.jsp"></jsp:include>
     <main>
+<c:if test="${erroneous}"> 
+    	<div class="container">
+			<p><c:out value="${errorMessage}"></c:out> </p>
+		</div>
+</c:if>
         <div class="container">
             <h2>
                 ${title}
@@ -123,16 +128,19 @@
 </c:choose> 
                     <div class="grid-col-span-2 center-items">
 <c:choose>
-<c:when test="${editableArticle == true }">
+<c:when test="${editableArticle}">
                         <input class="button" type="submit" value="Enregistrer">
                         <a href="${pageContext.request.contextPath}" class="button">annuler</a>
 </c:when>
-<c:otherwise>
+<c:when test="${encherable}">
                         <div class="txtinput">
-                            <label>Ma Proposition : </label>
-                            <input type="number" name="" id="" placeholder="" min="${empty meilleurOffre ? article.miseAPrix : (meilleurOffre + 1)}" value="${empty meilleurOffre ? article.miseAPrix : (meilleurOffre + 1)}">
+                            <label for="enchereqt">Ma Proposition : </label>
+                            <input type="number" name="enchereqt" id="enchereqt" placeholder="" min="${empty meilleurOffre ? article.miseAPrix : (meilleurOffre.montantEnchere + 1)}" value="${empty meilleurOffre ? article.miseAPrix : (meilleurOffre.montantEnchere + 1)}">
                         </div>
                         <input class="button" type="submit" value="Enchérir">
+</c:when>
+<c:otherwise>
+                        
 </c:otherwise>
 </c:choose> 
                     </div>

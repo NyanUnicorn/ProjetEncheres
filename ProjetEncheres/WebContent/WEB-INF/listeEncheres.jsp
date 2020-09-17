@@ -86,7 +86,7 @@
 <c:if test="${articles_encheres_ec.size() > 0}">
 			<h5>Mes Enchères en Cours</h5>
 <c:forEach items="${articles_encheres_ec}" var="article">
-            <a href="${pageContext.request.contextPath}/Encherir?noarticle=${article.noArticle}" class="container-item ">
+            <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
 						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
@@ -104,7 +104,7 @@
 <c:if test="${articles_encheres_r.size() > 0}">
 			<h5>Mes Enchères en Remportées</h5>
 <c:forEach items="${articles_encheres_r}" var="article">
-            <a href="${pageContext.request.contextPath}/Encherir?noarticle=${article.noArticle}" class="container-item ">
+            <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
 						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
@@ -123,7 +123,7 @@
 <c:if test="${articles_ventes_ec.size() > 0}">
 			<h5>Mes Ventes en Cours</h5>
 <c:forEach items="${articles_ventes_ec}" var="article">
-            <a href="${pageContext.request.contextPath}/Encherir?noarticle=${article.noArticle}" class="container-item ">
+            <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
 						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
@@ -142,7 +142,7 @@
 <c:if test="${articles_ventes_nd.size() > 0}">
 			<h5>Mes Ventes non Débutées</h5>
 <c:forEach items="${articles_ventes_nd}" var="article">
-            <a href="${pageContext.request.contextPath}/Encherir?noarticle=${article.noArticle}" class="container-item ">
+            <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
 						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
@@ -161,7 +161,7 @@
 <c:if test="${articles_ventes_t.size() > 0}">
 			<h5>Mes Ventes Terminées</h5>
 <c:forEach items="${articles_ventes_t}" var="article">
-            <a href="${pageContext.request.contextPath}/Encherir?noarticle=${article.noArticle}" class="container-item ">
+            <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
 						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
@@ -182,7 +182,7 @@
 			<h5>Enchères en Cours</h5>	
 </c:if>
 <c:forEach items="${articles_encheres}" var="article">
-            <a href="${pageContext.request.contextPath}/Encherir?noarticle=${article.noArticle}" class="container-item ">
+            <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
 						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">

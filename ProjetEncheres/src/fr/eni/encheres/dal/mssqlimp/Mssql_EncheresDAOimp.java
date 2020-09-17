@@ -169,22 +169,15 @@ WHERE [date_enchere] < GETDATE()
 	public void Insert(Enchere _item) throws DalException {
 		Connection conn = getConnection();
 		try {
-			PreparedStatement stm = conn.prepareStatement(getInsert(), Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement stm = conn.prepareStatement(getInsert());
 			ToDBIdMapper(stm, _item);
-			ToDBMapper(stm, _item);
+			ToDBMapper(stm, _item, 3);
 			int success = stm.executeUpdate();
-			if(success == 1) {
-				ResultSet res = stm.getGeneratedKeys();
-				if(res.next()) {
-					FromDbIdMapper(res.getInt(1), _item);				
-				}else {
-					throw new DalException(/*DALExceptionCode.DAL_NO_KEY_RETURNED*/);
-				}
-			}else {
+			if(success != 1) {
 				throw new DalException(/*DALExceptionCode.DAL_COULD_NOT_INSERT*/);
 			}
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}finally {
 			if(conn != null) {
 				try {
@@ -380,6 +373,17 @@ WHERE [date_enchere] < GETDATE()
 	@Override
 	protected void ToDBMapper(PreparedStatement _stm, Enchere _item) throws DalException {
 		int i = 1;
+		try {
+			_stm.setDate(i++, _item.getDateEnchere());
+			_stm.setInt(i++, _item.getMontantEnchere());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DalException(DalException.DAL_ERROR_WRITING_DATA);
+		}
+	}
+	
+	protected void ToDBMapper(PreparedStatement _stm, Enchere _item, int _startindex) throws DalException {
+		int i = _startindex;
 		try {
 			_stm.setDate(i++, _item.getDateEnchere());
 			_stm.setInt(i++, _item.getMontantEnchere());

@@ -24,7 +24,7 @@
             <span>Mon profile</span>
             <i class="fa fa-user" aria-hidden="true"></i>
         </a>
-        <a href="">
+        <a href="${pageContext.request.contextPath}/Deconnexion">
             <span>Déconexion</span>
             <i class="fa fa-sign-out" aria-hidden="true"></i>
         </a>

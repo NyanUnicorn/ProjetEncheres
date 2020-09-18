@@ -48,6 +48,12 @@ public class Connexion extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getAttribute("identifiant")!= null){
+			RequestDispatcher rd = null;
+			rd = request.getRequestDispatcher("/WEB-INF/ConnexionJSP.jsp");
+			rd.forward(request, response);
+			
+		}else {
 		Cookie[] cookies = request.getCookies();
 		for(Cookie cookie : cookies ) {
 			if(cookie.getName().equals("pseudo")) {
@@ -62,6 +68,7 @@ public class Connexion extends HttpServlet {
 		rd.forward(request, response);
 		
 	}
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -71,12 +78,9 @@ public class Connexion extends HttpServlet {
 		String identifiant;
 		String password;
 		UtilisateurManager userManager = null;
-		try {
-			userManager = new UtilisateurManager();
-		} catch (BllException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
+		userManager = UtilisateurManager.getInstance();
+		
 		Utilisateur user = null; 
 		HttpSession session = null;
 		
@@ -84,28 +88,30 @@ public class Connexion extends HttpServlet {
 		try {
 			identifiant = request.getParameter("identifiant");
 			password = request.getParameter("password");
-			user = userManager.getUtilisateur(identifiant, password);
-			
-			
-			
-			if(user != null) {
-				session = request.getSession();
-				session.setAttribute("utilisateur", user);
-				String[] value =request.getParameterValues("souvenir_mdp"); 
-				if(value!= null && value[0].equals("on")) {
-					Cookie cookiePseudo = new Cookie("pseudo", identifiant);
-					Cookie cookiePwd = new Cookie("pwd", password);
-					cookiePseudo.setMaxAge(60*60*24*30);
-					cookiePwd.setMaxAge(60*60*24*30);
-					response.addCookie(cookiePseudo);
-					response.addCookie(cookiePwd);
-				}
+			try {
+			user = userManager.getUtilisateur(identifiant, password);session = request.getSession();
+			session.setAttribute("utilisateur", user);
+			String[] value =request.getParameterValues("souvenir_mdp"); 
+			if(value!= null && value[0].equals("on")) {
+				Cookie cookiePseudo = new Cookie("pseudo", identifiant);
+				Cookie cookiePwd = new Cookie("pwd", password);
+				cookiePseudo.setMaxAge(60*60*24*30);
+				cookiePwd.setMaxAge(60*60*24*30);
+				response.addCookie(cookiePseudo);
+				response.addCookie(cookiePwd);
+			}
 
-				response.sendRedirect(request.getContextPath());				
-			}else {
+			response.sendRedirect(request.getContextPath());	
+			} catch (BllException e) {
+				request.setAttribute("identifiant", identifiant);
+				request.setAttribute("password", password);
 				request.setAttribute("erreurConnexion", true);
+				request.setAttribute("BllException", e.getMessage());
 				doGet(request, response);
 			}
+			
+							
+			
 			
 		}catch (Exception e) {
 			// TODO: handle exception

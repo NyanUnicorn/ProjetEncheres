@@ -11,10 +11,22 @@ import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DalException;
 import fr.eni.encheres.dal.specifique.UtilisateurDAO;
+import sun.print.PSPrinterJob.EPSPrinter;
 
 public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> implements UtilisateurDAO{
 	private static final String insert=
-			"";
+			"INSERT INTO [dbo].[UTILISATEURS]([pseudo]\r\n" + 
+					"      ,[nom]\r\n" + 
+					"      ,[prenom]\r\n" + 
+					"      ,[email]\r\n" + 
+					"      ,[telephone]\r\n" + 
+					"      ,[rue]\r\n" + 
+					"      ,[code_postal]\r\n" + 
+					"      ,[ville]\r\n" + 
+					"      ,[mot_de_passe]\r\n" + 
+					"      ,[credit]\r\n" + 
+					"      ,[administrateur] ) \r\n" + 
+					"  VALUES(?,?,?,?,?,?,?,?,?,?,?) \r\n ";
 	private static final String select =
 			"SELECT [no_utilisateur]\r\n" + 
 			"      ,[pseudo]\r\n" + 
@@ -63,10 +75,33 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 			"      ,[credit]\r\n" + 
 			"      ,[administrateur]\r\n" + 
 			"  FROM [dbo].[UTILISATEURS] WHERE [pseudo] like ? AND [mot_de_passe] like ?";
-
+	private static final String count_email = 
+			"SELECT COUNT(*) FROM [dbo].[UTILISATEURS] WHERE [email] like ?";
+	private static final String count_pseudo = 
+			"SELECT COUNT(*) FROM [dbo].[UTILISATEURS] WHERE [pseudo] like ?";
 	@Override
 	public void Insert(Utilisateur item) throws DalException {
-		// TODO Auto-generated method stub
+		Connection con = getConnection();
+		try {
+			PreparedStatement stm = con.prepareStatement(insert);
+			ToDBIdMapper(stm, item);
+			stm.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new DalException();
+			
+		}finally {
+			if(con != null) {
+				try {
+					if(! con.isClosed()) {
+						con.close();
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		
 	}
 
@@ -266,17 +301,72 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 		
 		return user;
 	}
-
+	
 	@Override
 	protected void ToDBIdMapper(PreparedStatement _stm, Utilisateur _item) throws DalException {
-		// TODO Auto-generated method stub
-		
+		int index = 1;
+		try {
+			_stm.setString(index++, _item.getPseudo());
+			_stm.setString(index++, _item.getNom());
+			_stm.setString(index++, _item.getPrenom());
+			_stm.setString(index++,_item.getEmail());
+			_stm.setString(index++, _item.getTelephone());
+			_stm.setString(index++, _item.getRue());
+			_stm.setString(index++, _item.getCodePostal());
+			_stm.setString(index++, _item.getVille());
+			_stm.setString(index++, _item.getMotDePasse());
+			_stm.setInt(index++, _item.getCredit());
+			_stm.setBoolean(index++, false);
+			
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DalException();
+		}		
 	}
 
 	@Override
 	protected void ToDBIdMapper(PreparedStatement _stm, Utilisateur _item, int start_index) throws DalException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getNbEmail(String email) throws DalException {
+		int nbEmail = 0 ;
+		Connection con = getConnection();
+		try {
+			PreparedStatement stm = con.prepareStatement(count_email);
+			stm.setString(1, email);
+			ResultSet rs = stm.executeQuery();
+					if(rs.next()) {
+						nbEmail = rs.getInt(1);
+					}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return nbEmail;
+	}
+
+	@Override
+	public int getNbPseudo(String pseudo) throws DalException {
+		int nbPseudo = 0 ;
+		Connection con = getConnection();
+		try {
+			PreparedStatement stm = con.prepareStatement(count_pseudo);
+			stm.setString(1, pseudo);
+			ResultSet rs = stm.executeQuery();
+					if(rs.next()) {
+						nbPseudo = rs.getInt(1);
+					}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return nbPseudo;
 	}
 
 }

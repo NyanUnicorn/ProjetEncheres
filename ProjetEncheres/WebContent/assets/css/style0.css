@@ -262,6 +262,11 @@ form .form-detail{
 	grid-column: 1 / sapn 2;
 }
 
+.block
+{
+	display: block;
+}
+
 .optionConnexion
 {
 	grid-row : 4;

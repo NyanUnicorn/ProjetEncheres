@@ -9,7 +9,7 @@
 	
 	<main>
 	<div class="container">
-						<c:if test="${erreurConnexion}"> <p><c:out value="Le pseudo ou le mot de passe est incorrect"></c:out> </p></c:if>
+						<c:if test="${erreurConnexion}"> <p><c:out value="${BllException}"></c:out> </p></c:if>
 					</div>	
 		
 			<form method ="post" action="Connexion" class="center-items">
@@ -39,7 +39,7 @@
 						</div >
 					</div>
 					<div class="creation-compte">
-						<a href="${pageContext.request.contextPath}/CreerProfile"> Créer un compte </a>
+						<a class="button" href="${pageContext.request.contextPath}/CreerProfile"> Créer un compte </a>
 					</div>
 				</div>
 			</form>

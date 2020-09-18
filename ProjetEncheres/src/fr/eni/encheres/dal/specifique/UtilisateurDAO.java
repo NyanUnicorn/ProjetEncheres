@@ -19,4 +19,7 @@ public interface UtilisateurDAO extends CrrudDAO<Utilisateur> {
 	List<Enchere> GetEcheres(Utilisateur _user) throws DalException;
 	
 	Utilisateur getUtilisateur(String identifiant, String password) throws DalException;
+	
+	int getNbEmail(String email)throws DalException;
+	int getNbPseudo(String pseudo)throws DalException;
 }

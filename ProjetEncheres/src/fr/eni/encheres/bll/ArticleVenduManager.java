@@ -30,9 +30,9 @@ public class ArticleVenduManager {
 		instance = instance == null ? this : instance;
 	}
 	
-	public void Add(ArticleVendu _ench) throws BllException {
+	public void Add(ArticleVendu _art) throws BllException {
 		try {
-			getAdapter().Insert(_ench);
+			getAdapter().Insert(_art);
 		}catch (DalException dale) {
 			throw new BllException(dale.getMessage());
 		}

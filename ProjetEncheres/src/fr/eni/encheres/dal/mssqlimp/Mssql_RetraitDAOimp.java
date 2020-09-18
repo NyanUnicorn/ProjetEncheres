@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Retrait;
@@ -79,6 +80,46 @@ public class Mssql_RetraitDAOimp extends Mssql_CrrudDAOimp<Retrait> implements R
 		}
 		return item;
 	}
+	
+	
+
+	@Override
+	public void Insert(Retrait _item) throws DalException {
+		Connection conn = getConnection();
+		try {
+			int i = 1;
+			PreparedStatement stm = conn.prepareStatement(getInsert(), Statement.RETURN_GENERATED_KEYS);
+			stm.setInt(i++, _item.getArticleVendu().getNoArticle());
+			stm.setString(i++, _item.getRue());
+			stm.setString(i++, _item.getCodePostale());
+			stm.setString(i++, _item.getVille());
+			int success = stm.executeUpdate();
+			if(success == 1) {
+				ResultSet res = stm.getGeneratedKeys();
+				if(res.next()) {
+					FromDbIdMapper(res.getInt(1), _item);				
+				}else {
+					throw new DalException(/*DALExceptionCode.DAL_NO_KEY_RETURNED*/);
+				}
+			}else {
+				throw new DalException(/*DALExceptionCode.DAL_COULD_NOT_INSERT*/);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(conn != null) {
+				try {
+					if(!conn.isClosed()) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+
 
 	@Override
 	protected String getInsert() {

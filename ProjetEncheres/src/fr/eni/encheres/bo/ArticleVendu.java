@@ -17,6 +17,7 @@ public class ArticleVendu {
 	private List<Enchere> encheres;
 	private Retrait lieuRetrait;
 	private Categorie categorie;
+	private String imageName;
 	
 	public ArticleVendu(int noArticle, String nomArticle, String descritpion, Date dateDebutEncheres,
 			Date dateFinEncheres, int miseAPrix, int prixVente, EtatVente etatVente, Utilisateur vendeur,

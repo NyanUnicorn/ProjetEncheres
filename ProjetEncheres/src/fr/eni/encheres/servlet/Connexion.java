@@ -80,7 +80,8 @@ public class Connexion extends HttpServlet {
 		UtilisateurManager userManager = null;
 		
 		userManager = UtilisateurManager.getInstance();
-		
+
+
 		Utilisateur user = null; 
 		HttpSession session = null;
 		

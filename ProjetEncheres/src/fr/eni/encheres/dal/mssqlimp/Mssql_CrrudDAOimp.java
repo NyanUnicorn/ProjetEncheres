@@ -46,7 +46,7 @@ public abstract class Mssql_CrrudDAOimp<T> extends Mssql_DAOimp<T> implements Cr
 				throw new DalException(/*DALExceptionCode.DAL_COULD_NOT_INSERT*/);
 			}
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}finally {
 			if(conn != null) {
 				try {

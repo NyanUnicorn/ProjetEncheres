@@ -4,24 +4,34 @@ import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.DalException;
 import fr.eni.encheres.dal.specifique.EncheresDAO;
 import fr.eni.encheres.dal.specifique.UtilisateurDAO;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.catalina.tribes.tipis.AbstractReplicatedMap.MapEntry;
+import java.util.List;
 
 import fr.eni.encheres.bll.BllException;
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;;
 
 public class UtilisateurManager {
 	private static UtilisateurManager instance;
 	private static UtilisateurDAO adapter;
+	private static UtilisateurDAO utilisateurDAO;
 	
-	
-	private UtilisateurManager()throws BllException {
-		
-		//utilisateurDAO = DAOFactory.getUtilisateurDAO();
+	private UtilisateurDAO getAdapter(){
+		if(adapter == null) {
+			adapter = DAOFactory.getUtilisateurDAO();
+		}
+		return adapter;
 	}
+
+
+	
+
+	private UtilisateurManager()throws BllException {
+}
+	
+
 	
 	public static UtilisateurManager getInstance() {
 		if (instance == null) {
@@ -34,11 +44,7 @@ public class UtilisateurManager {
 		}
 		return instance;
 	}
-	protected UtilisateurDAO getAdapter() {
-		if(adapter == null)
-			adapter = DAOFactory.getUtilisateurDAO();
-		return adapter;
-	}
+
 	
 	public Utilisateur getUtilisateur(String identifiant, String password) throws DalException, BllException {
 		Utilisateur user = getAdapter().getUtilisateur(identifiant, password);
@@ -108,5 +114,71 @@ public class UtilisateurManager {
 
 		}
 		}
+	}
+	
+	public List<ArticleVendu> getEncheresEnCours(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom, Utilisateur user) throws BllException{
+		List<ArticleVendu> lst = null;
+		try {
+			lst = getAdapter().selectEncheresEnCours(articleEnCours, noCateg, fragmenNom, user);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return lst;
+	}
+
+	public Utilisateur getUtilisateur(int id) throws BllException{
+		Utilisateur usr = null;
+		try {
+			usr = getAdapter().SelectById(id);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return usr;
+	}
+	
+	public List<ArticleVendu> getEncheresRemportees(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom, Utilisateur user) throws BllException{
+		List<ArticleVendu> lst = null;
+		try {
+			lst = getAdapter().selectEncheresRemportees(articleEnCours, noCateg, fragmenNom, user);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return lst;
+	}
+	
+	public List<ArticleVendu> getVentesEnCours(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom, Utilisateur user) throws BllException{
+		List<ArticleVendu> lst = null;
+		try {
+			lst = getAdapter().selectVenteEnCours(articleEnCours, noCateg, fragmenNom, user);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return lst;
+	}
+	
+	public List<ArticleVendu> getVentesNonDebutees(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom, Utilisateur user) throws BllException{
+		List<ArticleVendu> lst = null;
+		try {
+			lst = getAdapter().selectVentesNonDebutees(articleEnCours, noCateg, fragmenNom, user);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return lst;
+	}
+	
+	public List<ArticleVendu> getVentesTerminees(List<ArticleVendu> articleEnCours, int noCateg, String fragmenNom, Utilisateur user) throws BllException{
+		List<ArticleVendu> lst = null;
+		try {
+			lst = getAdapter().selectVentesTerminees(articleEnCours, noCateg, fragmenNom, user);
+		} catch (DalException e) {
+			e.printStackTrace();
+			throw new BllException(e.getMessage());
+		}
+		return lst;
 	}
 }

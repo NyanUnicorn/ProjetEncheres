@@ -89,7 +89,14 @@
             <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
-						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
+<c:choose>
+<c:when test="${not empty article.imageName}">
+						<img alt="" src="${pageContext.request.contextPath}/${article.imageName}">
+</c:when>
+<c:otherwise>
+						<img alt="" src="${pageContext.request.contextPath}/assets/image/taupe.jpg">
+</c:otherwise>
+</c:choose>
                     </div>
                     <div class="info">
                         <span class="name"><u>${article.nomArticle}</u></span>
@@ -107,7 +114,14 @@
             <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
-						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
+<c:choose>
+<c:when test="${not empty article.imageName}">
+						<img alt="" src="${pageContext.request.contextPath}/${article.imageName}">
+</c:when>
+<c:otherwise>
+						<img alt="" src="${pageContext.request.contextPath}/assets/image/taupe.jpg">
+</c:otherwise>
+</c:choose>
                     </div>
                     <div class="info">
                         <span class="name"><u>${article.nomArticle}</u></span>
@@ -126,7 +140,14 @@
             <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
-						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
+						<c:choose>
+<c:when test="${not empty article.imageName}">
+						<img alt="" src="${pageContext.request.contextPath}/${article.imageName}">
+</c:when>
+<c:otherwise>
+						<img alt="" src="${pageContext.request.contextPath}/assets/image/taupe.jpg">
+</c:otherwise>
+</c:choose>
                     </div>
                     <div class="info">
                         <span class="name"><u>${article.nomArticle}</u></span>
@@ -145,7 +166,14 @@
             <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
-						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
+						<c:choose>
+<c:when test="${not empty article.imageName}">
+						<img alt="" src="${pageContext.request.contextPath}/${article.imageName}">
+</c:when>
+<c:otherwise>
+						<img alt="" src="${pageContext.request.contextPath}/assets/image/taupe.jpg">
+</c:otherwise>
+</c:choose>
                     </div>
                     <div class="info">
                         <span class="name"><u>${article.nomArticle}</u></span>
@@ -164,7 +192,14 @@
             <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
-						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
+						<c:choose>
+<c:when test="${not empty article.imageName}">
+						<img alt="" src="${pageContext.request.contextPath}/${article.imageName}">
+</c:when>
+<c:otherwise>
+						<img alt="" src="${pageContext.request.contextPath}/assets/image/taupe.jpg">
+</c:otherwise>
+</c:choose>
                     </div>
                     <div class="info">
                         <span class="name"><u>${article.nomArticle}</u></span>
@@ -185,7 +220,14 @@
             <a href="${pageContext.request.contextPath}/DetailVente?noarticle=${article.noArticle}" class="container-item ">
                 <div class="article-list-item">
                     <div class="img">
-						<img alt="" src="${pageContext.request.contextPath}/assets/image/lamasticot.png">
+<c:choose>
+<c:when test="${not empty article.imageName}">
+						<img alt="" src="${pageContext.request.contextPath}/${article.imageName}">
+</c:when>
+<c:otherwise>
+						<img alt="" src="${pageContext.request.contextPath}/assets/image/taupe.jpg">
+</c:otherwise>
+</c:choose>
                     </div>
                     <div class="info">
                         <span class="name"><u>${article.nomArticle}</u></span>

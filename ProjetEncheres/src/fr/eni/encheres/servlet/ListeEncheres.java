@@ -27,6 +27,7 @@ import fr.eni.encheres.bo.Utilisateur;
 @WebServlet("/Encheres")
 public class ListeEncheres extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	public static final String article_image_rel_url_path = "assets/image/article/";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -138,20 +139,22 @@ public class ListeEncheres extends HttpServlet {
 			//select all articles with basic filters
 			getLast(articleEnCours,noCateg, fragmenNom);
 		}
-		if(articleEnCours != null) {
-			if(articleEnCours.size() > 0) {
-				for(ArticleVendu a : articleEnCours) {
-					try {
-						if(a.getVendeur() != null) {
-							a.setVendeur(umgr.getUtilisateur(a.getVendeur().getNoUtilisateur()));
-						}
-					} catch (BllException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
+		//ajouter vendeur au articles
+		getVendeurArticle(articleEnCours);
+		getVendeurArticle(mesArtEnCours);
+		getVendeurArticle(mesArtRemp);
+		getVendeurArticle(mesVentesEnCours);
+		getVendeurArticle(mesVentesNonDebut);
+		getVendeurArticle(mesVentesTermin);
+		//remap image article (url relatif + nom image)
+		remapArticleImage(articleEnCours);
+		remapArticleImage(mesArtEnCours);
+		remapArticleImage(mesArtRemp);
+		remapArticleImage(mesVentesEnCours);
+		remapArticleImage(mesVentesNonDebut);
+		remapArticleImage(mesVentesTermin);
 
+		
 		request.setAttribute("fragmenNom", fragmenNom);
 		request.setAttribute("noCateg", noCateg);
 		request.setAttribute("articles_encheres",articleEnCours);
@@ -257,5 +260,35 @@ public class ListeEncheres extends HttpServlet {
 	
 	protected static boolean cbxToBool(String str) {
 		return str.equals("on");
+	}
+	
+	public static void getVendeurArticle(List<ArticleVendu> _lstArt) {
+		UtilisateurManager umgr = UtilisateurManager.getInstance();
+		if(_lstArt != null) {
+			if(_lstArt.size() > 0) {
+				for(ArticleVendu a : _lstArt) {
+					try {
+						if(a.getVendeur() != null) {
+							a.setVendeur(umgr.getUtilisateur(a.getVendeur().getNoUtilisateur()));
+						}
+					} catch (BllException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	public static void remapArticleImage(List<ArticleVendu> _lstArt) {
+		UtilisateurManager umgr = UtilisateurManager.getInstance();
+		if(_lstArt != null) {
+			if(_lstArt.size() > 0) {
+				for(ArticleVendu a : _lstArt) {
+					if(a.getImageName() != null) {
+						a.setImageName(article_image_rel_url_path + a.getImageName());
+					}
+				}
+			}
+		}
 	}
 }

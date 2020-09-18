@@ -160,6 +160,14 @@ public class ArticleVendu {
 	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
 	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
 	
 	
 	

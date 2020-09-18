@@ -16,9 +16,16 @@
             <h2>
                 ${title}
             </h2>
-            <form action="" method="post" class="fill-form  fill-form-1-2">
+            <form action="" method="post" class="fill-form  fill-form-1-2" <c:if test="${editableArticle}">enctype="multipart/form-data"</c:if>>
                 <div class="image">
-                    <img src="" alt="">
+<c:choose>
+<c:when test="${not empty article.imageName}">
+						<img alt="" src="${pageContext.request.contextPath}/${article.imageName}">
+</c:when>
+<c:otherwise>
+						<img alt="" src="${pageContext.request.contextPath}/assets/image/taupe.jpg">
+</c:otherwise>
+</c:choose>
                 </div>
                 <div class="infos" >
 <c:choose>

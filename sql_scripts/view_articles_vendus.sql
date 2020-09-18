@@ -9,6 +9,7 @@ AS
 		,a.[no_utilisateur] as [no_vendeur]
 		,a.[no_categorie]
 		,a.[description]
+		,a.[image]
 		,(SELECT CASE WHEN t1.no_utilisateur IS NULL THEN (SELECT CASE WHEN a.[date_fin_encheres] <= GETDATE() THEN 2 ELSE 0 END ) ELSE 1 END) as [etat_vente]
 		,t1.no_utilisateur [no_acheteur]
 	FROM [dbo].[ARTICLES_VENDUS] a

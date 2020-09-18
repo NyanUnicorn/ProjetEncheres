@@ -75,7 +75,6 @@ public class NouvelleVente extends HttpServlet {
 		boolean connected = user != null;
 		request.setAttribute("connected", connected);
 		CategorieManager cmgr = CategorieManager.GetInstace();
-
 		//set attributes for article based on parameters from previous input
 		
 
@@ -98,6 +97,7 @@ public class NouvelleVente extends HttpServlet {
 		ArticleVenduManager amgr = ArticleVenduManager.GetInstace();
 		RetraitManager rmgr = RetraitManager.GetInstace();
 		Utilisateur user = (Utilisateur)session.getAttribute("utilisateur");
+		
 
 		
 		String imageDir = "";

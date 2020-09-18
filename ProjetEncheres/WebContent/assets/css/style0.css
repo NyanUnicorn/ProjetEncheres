@@ -38,6 +38,10 @@ a{
     color: var(--foreground);
     
 }
+img{
+	max-width: 100%;
+	max-height: 100%;
+}
 a:link{
     text-decoration: none;
     color: var(--foreground);
@@ -202,11 +206,13 @@ form .form-detail{
 }
 .article-list-item > .img{
     grid-column: 1;
+    max-height: 100%;
+    max-width: 100%;
 }
 .article-list-item .img > *{
     display: block;
-    height: 100%;
-    width: 100%;
+    max-height: 110px;
+    max-width: 100%;
 }
 .article-list-item > .info{
     grid-column: 2;

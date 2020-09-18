@@ -77,6 +77,7 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 			"    ,va.[description]\r\n" + 
 			"    ,va.[etat_vente]\r\n" + 
 			"    ,va.[no_acheteur]\r\n" + 
+			"      ,va.[image]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"JOIN [dbo].[ENCHERES] e ON e.[no_article] = va.[no_article]\r\n" + 
 			"WHERE va.[date_fin_encheres] > GETDATE()\r\n" + 
@@ -95,6 +96,7 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 			"    ,va.[description]\r\n" + 
 			"    ,va.[etat_vente]\r\n" + 
 			"    ,va.[no_acheteur]\r\n" + 
+			"      ,va.[image]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"JOIN [dbo].[ENCHERES] e ON e.[no_article] = va.[no_article] AND e.[montant_enchere] = va.[prix_vente]\r\n" + 
 			"WHERE va.[date_fin_encheres] < GETDATE()\r\n" + 
@@ -113,6 +115,7 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 			"    ,va.[description]\r\n" + 
 			"    ,va.[etat_vente]\r\n" + 
 			"    ,va.[no_acheteur]\r\n" + 
+			"      ,va.[image]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"WHERE va.[date_debut_encheres] < GETDATE()\r\n" + 
 			"AND va.[date_fin_encheres] > GETDATE()\r\n" + 
@@ -131,6 +134,7 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 			"    ,va.[description]\r\n" + 
 			"    ,va.[etat_vente]\r\n" + 
 			"    ,va.[no_acheteur]\r\n" + 
+			"      ,va.[image]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"WHERE va.[date_debut_encheres] > GETDATE()\r\n" + 
 			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ? END)\r\n" + 
@@ -148,6 +152,7 @@ public class Mssql_UtilisateurDAOimp extends Mssql_CrrudDAOimp<Utilisateur> impl
 			"    ,va.[description]\r\n" + 
 			"    ,va.[etat_vente]\r\n" + 
 			"    ,va.[no_acheteur]\r\n" + 
+			"      ,va.[image]\r\n" + 
 			"FROM [dbo].[VIEW_ARTICLE_VENDUS] va\r\n" + 
 			"WHERE va.[date_fin_encheres] < GETDATE()\r\n" + 
 			"AND va.[no_categorie] = (SELECT CASE ? WHEN 0 THEN va.[no_categorie] ELSE ? END)\r\n" + 

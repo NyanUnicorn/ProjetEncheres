@@ -2,6 +2,7 @@ package fr.eni.encheres.servlet;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -75,7 +76,8 @@ public class DetailVente extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		
+		//remap image
+		remapArticleImage(article);
 		//check if bid-able
 		boolean encherable = true;
 		encherable = connected ? article.getVendeur().getNoUtilisateur() != user.getNoUtilisateur() : false;
@@ -138,8 +140,8 @@ public class DetailVente extends HttpServlet {
 		}
 		//check bid is greater than mas offer
 		if(meilleurOffre != null) {
-			if(meilleurOffre.getMontantEnchere()  < enchereqt) {
-				errorMessage = "Montant inferieur au maximum actuel";
+			if(meilleurOffre.getMontantEnchere()  >= enchereqt) {
+				errorMessage = "Montant inferieur ou egal au maximum actuel";
 				erroneous = true;
 			}			
 		}
@@ -160,6 +162,14 @@ public class DetailVente extends HttpServlet {
 			request.setAttribute("errorMessage", errorMessage);			
 		}
 		doGet(request, response);
+	}
+	
+	
+	public static void remapArticleImage(ArticleVendu a) {
+		UtilisateurManager umgr = UtilisateurManager.getInstance();
+		if(a.getImageName() != null) {
+			a.setImageName(ListeEncheres.article_image_rel_url_path + a.getImageName());
+		}
 	}
 
 }
